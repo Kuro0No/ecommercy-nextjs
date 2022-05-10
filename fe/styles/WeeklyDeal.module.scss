@@ -1,0 +1,48 @@
+.container {
+    padding-top: 30px;
+    height: 700px;
+
+    .title {
+        text-align: center;
+    }
+
+    img {
+        object-fit: cover;
+        // opacity: 0.9;
+    }
+
+    .product_wrap {
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            z-index: 10;
+            img {
+                transition: ease 0.5s;
+                transform: scale(1.2);
+            }
+
+            .icon {
+                transform: translateX(30px);
+
+            }
+        }
+    }
+
+    .titleProduct {
+        position: absolute;
+        z-index: 5;
+        top: 10%;
+        left: 3%;
+    }
+
+    .icon {
+        transition: ease 0.5s;
+        padding: 5px;
+
+        font-size: 30px;
+        cursor: pointer;
+
+
+    }
+}
