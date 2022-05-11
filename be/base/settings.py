@@ -15,7 +15,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django-jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'base.apps.BaseConfig',
     "corsheaders",
+    'base.user.apps.UserConfig',
 
     
 ]
@@ -71,7 +72,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eco-next',
+        'NAME': 'eco-nextjs',
         'USER': 'postgres',
         'PASSWORD':'tao0noi1',
         "HOST": 'localhost',
@@ -126,3 +127,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = 'static/'
 MEDIA_URL = '/base/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'base/media/')
+
+AUTH_USER_MODEL = 'user.User'
