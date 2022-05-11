@@ -9,6 +9,10 @@
     img {
         object-fit: cover;
         // opacity: 0.9;
+        transition: ease 0.3s;
+    }
+    svg{
+        fill: black;
     }
 
     .product_wrap {
@@ -17,6 +21,8 @@
 
         &:hover {
             z-index: 10;
+            
+
             img {
                 transition: ease 0.5s;
                 transform: scale(1.2);

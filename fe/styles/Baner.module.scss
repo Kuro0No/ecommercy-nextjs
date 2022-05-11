@@ -53,8 +53,9 @@
         bottom: 0;
         right: 50%;
         z-index: 5;
-
+        
         .active {
+            transition: ease 0.3s;
             height: 10px;
             width: 30px;
             background: #bb7e7e;
