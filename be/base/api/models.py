@@ -1,7 +1,6 @@
-from distutils.command.upload import upload
-from turtle import color
 import uuid
 from django.db import models
+
 
 # Create your models here.
 
@@ -9,7 +8,7 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(null=True,max_length=150)
     def __str__(self):
-        return f"{self.name}, {self.id} "
+        return f"{self.name} "
 
 class Colors(models.Model):
     name = models.CharField(null=True,max_length=150)
@@ -38,7 +37,7 @@ class TotalProducts(models.Model):
 
 class Reviews(models.Model):
     # user = models.ForeignKey()
-    post_id = models.ForeignKey(TotalProducts, on_delete=models.CASCADE,null=True)
+    product_id = models.ForeignKey(TotalProducts, on_delete=models.CASCADE,null=True)
     content = models.CharField(null=True,max_length=150)
     rate = models.IntegerField(null=True)
     def __str__(self):
@@ -48,16 +47,14 @@ class Reviews(models.Model):
 
 class Comments(models.Model):
     # user = models.ForeignKey()
-    post_id = models.ForeignKey(TotalProducts, on_delete=models.CASCADE,null=True)
+    product_id = models.ForeignKey(TotalProducts, on_delete=models.CASCADE,null=True)
     content = models.CharField(null=True,max_length=150)
-    rate = models.IntegerField(null=True)
     def __str__(self):
-        return f"{self.content[0:50]}, {self.rate} "
+        return f"{self.content[0:50]}"
 
 class RepComments(models.Model):
     # user = models.ForeignKey()
     comment_id =  models.ForeignKey(Comments, on_delete=models.CASCADE,null=True)
     content = models.CharField(null=True,max_length=150)
-    rate = models.IntegerField(null=True)
     def __str__(self):
-        return f"{self.content[0:50]}, {self.rate} "
+        return f"{self.content[0:50]} "
