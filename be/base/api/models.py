@@ -44,7 +44,7 @@ class Reviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     product_id = models.ForeignKey(TotalProducts, on_delete=models.CASCADE,null=True)
     content = models.TextField(null=True,max_length=150)
-    rate = models.IntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(5)])
+    rate  = models.IntegerField(null=True,validators=[MinValueValidator(1),MaxValueValidator(5)])
     created = models.DateTimeField(auto_now_add = True, null=True)
     def __str__(self):
         return f"{self.content[0:50]}, {self.rate} "

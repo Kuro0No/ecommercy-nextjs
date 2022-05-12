@@ -8,5 +8,5 @@ router.register('list-products', views.TotalProductView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('', views.getRoutes)
+    # path('as/', views.getRoutes)
 ]

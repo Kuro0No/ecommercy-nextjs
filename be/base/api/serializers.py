@@ -9,12 +9,12 @@ from .models import Category, Colors, Comments, RepComments, Reviews, TotalProdu
 class CategorySerializers(ModelSerializer):
     class Meta: 
         model = Category
-        field =['id','name']
+        fields =['id','name']
 
 class ColorsSerializers(ModelSerializer):
     class Meta: 
         model = Colors
-        field =['id','name']
+        fields =('id','name')
 
 
 class TotalProductsSerializers(ModelSerializer):
