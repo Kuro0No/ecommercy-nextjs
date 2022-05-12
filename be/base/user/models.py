@@ -3,6 +3,8 @@ import uuid
 from django.conf import settings
 from django.db import models 
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
+# from phonenumber_field.modelfields import PhoneNumberField
+
 
 # from base.models import ViSource
 
@@ -62,6 +64,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     email=models.EmailField(max_length=225,unique=True)
     created=models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='avatar/' ,default='avatar/defaultAvatar.jpg', blank=True)
+    # phone = PhoneNumberField(null=False, blank=False, unique=True)
+ 
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
     is_superuser=models.BooleanField(default=False)
@@ -76,8 +80,10 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 
 class Cart(models.Model):
-    product = models.ForeignKey('base.TotalProducts', null=True,on_delete=models.CASCADE)
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey('base.TotalProducts', null=True,on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
         return f'{self.product}'
@@ -85,10 +91,12 @@ class Cart(models.Model):
 
 class WantBuyProduct(models.Model):
     STATUS_CHOICE =(
+    # ("InCart", "In Cart"),
     ("Accepting", "Accepting"),
     ("Taking", "Taking"),
     ("Deliverying", "Deliverying"),
-    ("Receiving", "Receiving"),)
+    ("Receiving", "Receiving"),
+    ("Done", "Done"),)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     product_in_cart = models.ForeignKey(Cart, null=True,on_delete=models.CASCADE)
     status = models.TextField(choices=STATUS_CHOICE, default="Accepting")

@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     "corsheaders",
     'base.user.apps.UserConfig',
+    'django_filters',
+    
 
     
 ]
@@ -69,14 +71,14 @@ CORS_ALLOW_ALL_ORIGINS=True
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eco-nextjs',
-        'USER': 'postgres',
-        'PASSWORD':'tao0noi1',
-        "HOST": 'localhost',
-        'PORT': ''
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'eco-nextjs',
+        # 'USER': 'postgres',
+        # 'PASSWORD':'tao0noi1',
+        # "HOST": 'localhost',
+        # 'PORT': ''
 
     }
 }

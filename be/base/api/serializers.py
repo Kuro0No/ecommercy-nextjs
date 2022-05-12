@@ -1,7 +1,5 @@
 
-
-from dataclasses import field
-from unicodedata import category
+from base.user.serializers import UserSerializer
 from rest_framework import serializers 
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
 from .models import Category, Colors, Comments, RepComments, Reviews, TotalProducts
@@ -21,6 +19,7 @@ class TotalProductsSerializers(ModelSerializer):
 
     color = ColorsSerializers(read_only=True, many=True)
     category = CategorySerializers(read_only=True, many=False)
+    seller = UserSerializer(read_only=True)
     class Meta:
         model= TotalProducts
         fields = '__all__'

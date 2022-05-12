@@ -39,7 +39,7 @@ class TotalProductView(viewsets.ModelViewSet):
     pagination_class = CustomPageSearchNumberPagination
     filter_backends = [DjangoFilterBackend,filters.SearchFilter,] #filters.BaseFilterBackend, filters.OrderingFilter,
     ordering = ('-price',)
-    filter_fields = ['colors,category']   
+    filter_fields = ['color','category']   
     search_fields = ['name']
     queryset = TotalProducts.objects.all()
 

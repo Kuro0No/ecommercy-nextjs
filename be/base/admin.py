@@ -76,16 +76,17 @@ admin.site.register(User,UserAdmin)
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['product','user']
-
-
-    # readonly_fields = ['last_login', 'id', 'is_active']
+    list_display = ['product','user','quantity']
+    search_fields = ['product','user']
+    # readonly_fields = ['quantity']
 
 admin.site.register(Cart,CartAdmin)
 
 
 class WantBuyProductAdmin(admin.ModelAdmin):
     list_display = ['user','status']
+    list_filter = ['user', 'product_in_cart','status']
+    search_fields = ['product_in_cart','user']
 
 
 admin.site.register(WantBuyProduct,WantBuyProductAdmin)

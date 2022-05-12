@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+
 from base.user.models import User
 
 
@@ -30,6 +31,7 @@ class TotalProducts(models.Model):
     color = models.ManyToManyField(Colors, null=True)
     category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
     price = models.FloatField(null=True)
+    count_sold = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add = True, null=True)
 
     class Meta:   
