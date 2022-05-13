@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import models 
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 # from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # from base.models import ViSource
@@ -83,7 +84,13 @@ class Cart(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey('base.TotalProducts', null=True,on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=1,validators=[MinValueValidator(1)])
+
+    def get_price(self):
+        return self.quantity + 100
+
+
+
 
     def __str__(self):
         return f'{self.product}'
@@ -100,6 +107,9 @@ class WantBuyProduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     product_in_cart = models.ForeignKey(Cart, null=True,on_delete=models.CASCADE)
     status = models.TextField(choices=STATUS_CHOICE, default="Accepting")
+    # quantity = models.IntegerField(default=1 , validators=[MinValueValidator(1)])
+    # quantity = Cart.objects.get()
 
+    
     def __str__(self):
         return f'{self.user.name}'

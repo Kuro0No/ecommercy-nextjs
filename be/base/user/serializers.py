@@ -127,9 +127,21 @@ class CartSerializer(ModelSerializer):
     user = UserSerializer(read_only=False)
     cart = Products(read_only=False, many=True)
     
+    # def get_price(self):
+    #     print(TotalProducts.objects.get(uuid ='20e95c61-9f0c-464d-9c0d-6f7212a769a3').price)
+
+    
+        
+   
+
+    # price = get_price(Products())
+    
+    
     class Meta:
         model = Cart
         fields = '__all__'
+
+    
 
 
 class ProductsInCartUser(ModelSerializer):

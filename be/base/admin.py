@@ -6,7 +6,7 @@ from base.user.models import User,Cart,WantBuyProduct
 # Register your models here.
 
 class TotalProductAdmin(admin.ModelAdmin):
-    list_display = ('name','price','uuid', 'get_color','category')
+    list_display = ('name','price','uuid', 'get_color','category','price')
     list_filter = ['category','color']
     search_fields = ['name','category__name','color__name']
     readonly_fields = ['uuid']
@@ -79,6 +79,8 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ['product','user','quantity']
     search_fields = ['product','user']
     # readonly_fields = ['quantity']
+
+    
 
 admin.site.register(Cart,CartAdmin)
 

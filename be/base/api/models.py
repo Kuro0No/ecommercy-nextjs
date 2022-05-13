@@ -28,7 +28,7 @@ class TotalProducts(models.Model):
     image = models.FileField(upload_to='image',null=True)
     created = models.DateTimeField(auto_now_add = True, null=True)
     video = models.FileField(upload_to='video',null=True,blank=True)
-    color = models.ManyToManyField(Colors, null=True)
+    color = models.ManyToManyField(Colors)
     category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
     price = models.FloatField(null=True)
     count_sold = models.IntegerField(default=0)
@@ -39,6 +39,8 @@ class TotalProducts(models.Model):
 
     def __str__(self):
         return self.name[0:50]
+
+    
 
 
 
