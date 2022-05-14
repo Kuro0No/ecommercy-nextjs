@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from base.api.models import TotalProducts,Category, Colors,Comments,RepComments,Reviews
-from base.user.models import User,Cart,WantBuyProduct
+from base.user.models import User,Cart,Order
 
 # Register your models here.
 
@@ -76,19 +76,34 @@ admin.site.register(User,UserAdmin)
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['product','user','quantity']
+    list_display = ['product','user','quantity','get_total_price',]
     search_fields = ['product','user']
-    # readonly_fields = ['quantity']
+    readonly_fields = ['get_total_price']
+    list_filter = ['user','product__category']
+
+
+    def get_total_price(self,obj):
+        for i in Cart.objects.filter(id=obj.id):
+            return i.get_price()
+
+    # def get_category(self,obj):
+    #     for i in Cart.objects.all():
+    #         print(i.product__name__category)
+    #         return i.product__name__category
+            
+            
+    
+    
 
     
 
 admin.site.register(Cart,CartAdmin)
 
 
-class WantBuyProductAdmin(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = ['user','status']
     list_filter = ['user', 'product_in_cart','status']
     search_fields = ['product_in_cart','user']
 
 
-admin.site.register(WantBuyProduct,WantBuyProductAdmin)
+admin.site.register(Order,OrderAdmin)

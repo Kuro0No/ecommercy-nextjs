@@ -2,7 +2,8 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers as serializersCore
 from base.api import serializers as serializersBase
 from base.api.models import TotalProducts
-from .models import  Cart, User, WantBuyProduct #SavedVideoModel
+from base.api.models import Category, Colors
+from .models import  Cart, User, Order #SavedVideoModel
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
@@ -18,11 +19,7 @@ class UserSerializer(ModelSerializer):
             'id',
             # 'subcriber'
         ]
-class Products(ModelSerializer):
-    author =  UserSerializer(read_only=False)
-    class Meta:
-        model= TotalProducts
-        fields = '__all__'
+
 
 
 class RegisterUserSerializer(serializersCore.ModelSerializer):
@@ -120,23 +117,29 @@ class UpdateAvatarUserSerializer(serializersCore.ModelSerializer):
     #     if validated_data:
     #         instance.save()    
     #     return instance
-        
 
+class CategorySerializers(ModelSerializer):
+    class Meta: 
+        model = Category
+        fields =['id','name']
+
+class ColorsSerializers(ModelSerializer):
+    class Meta: 
+        model = Colors
+        fields = '__all__'
+
+        
+class Products(ModelSerializer):
+    seller = UserSerializer(read_only=False)
+    category = CategorySerializers(read_only=False)
+    color = ColorsSerializers(read_only=False,many=True)
+    class Meta:
+        model= TotalProducts
+        fields = '__all__'
 
 class CartSerializer(ModelSerializer):
-    user = UserSerializer(read_only=False)
-    cart = Products(read_only=False, many=True)
-    
-    # def get_price(self):
-    #     print(TotalProducts.objects.get(uuid ='20e95c61-9f0c-464d-9c0d-6f7212a769a3').price)
-
-    
-        
-   
-
-    # price = get_price(Products())
-    
-    
+    user = UserSerializer(read_only=False,many=False)
+    product = Products(read_only=False)
     class Meta:
         model = Cart
         fields = '__all__'
@@ -150,21 +153,12 @@ class ProductsInCartUser(ModelSerializer):
         model= Cart
         fields = ['product']
 
-class WantBuyProductSerializer(ModelSerializer):
+class OrderSerializer(ModelSerializer):
     user = UserSerializer(read_only=False)
     product = SerializerMethodField()
     
     class Meta:
-        model = WantBuyProduct
+        model = Order
         fields = '__all__'
 
 
-    
-
-# class YourVideoSerializer(ModelSerializer):
-#     author = UserSerializer(read_only=False)
-
-    
-#     class Meta:
-#         model = ViSource
-#         fields = '__all__'

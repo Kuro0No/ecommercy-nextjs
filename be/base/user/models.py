@@ -1,4 +1,3 @@
-from itertools import product
 import uuid
 from django.conf import settings
 from django.db import models 
@@ -87,16 +86,14 @@ class Cart(models.Model):
     quantity = models.IntegerField(default=1,validators=[MinValueValidator(1)])
 
     def get_price(self):
-        return self.quantity + 100
-
-
-
+        return self.quantity * self.product.price
+    # total_price = get_price(1)
 
     def __str__(self):
         return f'{self.product}'
 
 
-class WantBuyProduct(models.Model):
+class Order(models.Model):
     STATUS_CHOICE =(
     # ("InCart", "In Cart"),
     ("Accepting", "Accepting"),
