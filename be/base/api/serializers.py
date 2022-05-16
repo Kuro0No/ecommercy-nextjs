@@ -2,7 +2,7 @@
 from base.user.serializers import UserSerializer
 from rest_framework import serializers 
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
-from .models import Category, Colors, Comments, RepComments, Reviews, TotalProducts
+from .models import Category, Colors, Comments, RepComments, Reviews, TotalProducts, WeeklyDeal
 
 class CategorySerializers(ModelSerializer):
     class Meta: 
@@ -30,6 +30,11 @@ class ReviewsSerializer(ModelSerializer):
         model= Reviews
         fields = '__all__'
     
+class WeeklyDealSerializer(ModelSerializer):
+    product = TotalProductsSerializers()
+    class Meta:
+        model = WeeklyDeal
+        fields = '__all__'
 
 class CommentsListSerializer(ModelSerializer):
     # user = UserSerializer(read_only=False)

@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from base.api.models import TotalProducts,Category, Colors,Comments,RepComments,Reviews
 from base.user.models import User,Cart,Order
+from base.api.models import WeeklyDeal
 
 # Register your models here.
 
@@ -107,3 +108,15 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order,OrderAdmin)
+
+
+class WeeklyDealAdmin(admin.ModelAdmin):
+    list_display = ['product','get_seller']
+    def get_seller(self,obj):
+       for i in WeeklyDeal.objects.filter(id=obj.id):
+          
+           return i.product.seller
+  
+
+
+admin.site.register(WeeklyDeal,WeeklyDealAdmin)
