@@ -32,9 +32,11 @@ class ReviewsSerializer(ModelSerializer):
     
 class WeeklyDealSerializer(ModelSerializer):
     product = TotalProductsSerializers()
+
+
     class Meta:
         model = WeeklyDeal
-        fields = '__all__'
+        fields = ['product']
 
 class CommentsListSerializer(ModelSerializer):
     # user = UserSerializer(read_only=False)

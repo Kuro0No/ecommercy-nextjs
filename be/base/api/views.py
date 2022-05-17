@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from base.api.paginations import CustomPageSearchNumberPagination
-from .serializers import TotalProductsSerializers
+from base.api.models import WeeklyDeal
+from base.api.serializers import TotalProductsSerializers, WeeklyDealSerializer 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -58,4 +59,27 @@ class TotalProductView(viewsets.ModelViewSet):
     #     return TotalProductsSerializers.objects.filter(color__in=colors).order_by('-created').exclude(uuid=pk).distinct()
 
 
+@api_view(['GET', 'POST'])
+def WeekyDealView(request):
+    data = request.data
+    if request.method == "GET":
+        weeky = WeeklyDeal.objects.all()
+        serializer = WeeklyDealSerializer(weeky, many=True)
 
+        return Response(serializer.data)
+    
+    if request.method == "POST":
+        # print(data)
+        uuid = TotalProducts.objects.get(uuid = data['product']['uuid'])
+        data2 = WeeklyDeal.objects.create(
+            product = uuid
+        )
+        data2.save()
+        if len(WeeklyDeal.objects.all()) >2 :
+            data3 =WeeklyDeal.objects.all()[0]
+            data3.delete()
+
+        serrializer = WeeklyDealSerializer(data2,many=False)
+            
+
+        return Response(serrializer.data)

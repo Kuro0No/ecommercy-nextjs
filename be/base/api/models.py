@@ -41,10 +41,9 @@ class TotalProducts(models.Model):
         return self.name[0:50]
 
 class WeeklyDeal(models.Model):
-    product = models.ForeignKey(1, on_delete=models.CASCADE, null=False)
+    product = models.ForeignKey(TotalProducts, on_delete=models.CASCADE, null=False)
 
-    def get_limit(self):
-        print(self.product)
+    
     def __str__(self):
         return f"{self.product.name[0:50]}, {self.product.seller}"
 
