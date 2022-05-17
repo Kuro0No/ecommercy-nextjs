@@ -2,16 +2,10 @@ import React, { useState } from 'react'
 import { Col, Row, Image, Button, Carousel } from 'antd'
 import style from '../styles/Baner.module.scss'
 import { ArrowLeftOutlined, ArrowRightOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import {baseUrlImage } from '../variable.js'
 
+const Banner = ({ banner }) => {
 
-const Banner = () => {
-    const contentStyle = {
-        height: '160px',
-        color: '#fff',
-        lineHeight: '160px',
-        textAlign: 'center',
-        background: '#364d79',
-    };
 
     const [tabSlider, setTabSlider] = useState(0)
     const changeSlideLeft = () => {
@@ -31,14 +25,35 @@ const Banner = () => {
                 <ArrowRightOutlined onClick={changeSlideRight} className={style.ic_right} />
                 <div className={style.dot}>
                     {tabDot.map(item => {
-                        return <div key={item} className={`${item === tabSlider ?  style.active : ''}`} onClick={() => setTabSlider(item)}>
+                        return <div key={item} className={`${item === tabSlider ? style.active : ''}`} onClick={() => setTabSlider(item)}>
                         </div>
                     })}
-                   
+
                 </div>
 
                 <Col span={24} className={style.col_container} style={{ transform: `translateX(${-tabSlider * 100}vw)` }}>
-                    <Col className={style.left} span={10}>
+
+                    {banner.map((item,index) => {
+
+                        return <Col key={index} span={24} style={{display: 'flex'}}>
+                            <Col  className={style.left} span={10}>
+                                <h2>{item.product.name}</h2>
+                                <h1>Your choice <br /> My Money</h1>
+                                <Button type="primary" icon={<ShoppingCartOutlined />} size='large'  >
+                                    Buy now!
+                                </Button>
+                            </Col>
+                            <Col span={14}>
+                                <Image
+                                    alt='banner'
+                                    width={'75%'}
+                                    className={style.image_container}
+                                    src= {baseUrlImage+item.product.image}
+                                />
+                            </Col>
+                        </Col >
+                    })}
+                    {/* <Col className={style.left} span={10}>
                         <h2>Jordan</h2>
                         <h1>Your choice <br /> My Money</h1>
                         <Button type="primary" icon={<ShoppingCartOutlined />} size='large'  >
@@ -84,7 +99,7 @@ const Banner = () => {
                             className={style.image_container}
                             src="https://i.pinimg.com/originals/9c/9a/af/9c9aaf166a5ce6ce6905b858f562df01.jpg"
                         />
-                    </Col>
+                    </Col> */}
 
 
                 </Col>
@@ -97,3 +112,5 @@ const Banner = () => {
 }
 
 export default Banner
+
+
