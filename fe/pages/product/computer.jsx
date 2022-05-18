@@ -1,9 +1,21 @@
 import React from 'react'
 
-const computer = () => {
+const Computer = () => {
   return (
     <div>computer</div>
   )
 }
 
-export default computer
+export default Computer
+
+Computer.getLayOut = function PageLayOut(page) {
+
+  return <>
+    
+     
+        {page}
+      
+
+    
+  </>
+}

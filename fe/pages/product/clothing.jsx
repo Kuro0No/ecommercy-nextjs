@@ -3,7 +3,7 @@ import React from 'react'
 
 
 
-const index = () => {
+const Clothing = () => {
   return (
     <div>
       123123
@@ -11,9 +11,9 @@ const index = () => {
   )
 }
 
-export default index
+export default Clothing
 
-index.getLayOut = function PageLayOut(page) {
+Clothing.getLayOut = function PageLayOut(page) {
 
   return <>
     

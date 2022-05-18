@@ -52,7 +52,7 @@ const WeekyDeal = () => {
             </Col>
           </Row>
           <Col span={24} className={css.product_wrap}>
-            <Link href='/product/gaming'>
+            <Link href='/product/computer'>
               <a>
 
 

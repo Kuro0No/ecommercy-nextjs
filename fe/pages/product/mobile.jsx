@@ -1,6 +1,6 @@
 import React from 'react'
 
-const index = () => {
+const Mobile = () => {
     
   return (
     <div>
@@ -9,4 +9,16 @@ const index = () => {
   )
 }
 
-export default index
+export default Mobile
+
+Mobile.getLayOut = function PageLayOut(page) {
+
+  return <>
+    
+     
+        {page}
+      
+
+    
+  </>
+}

@@ -1,9 +1,22 @@
 import React from 'react'
 
-const index = () => {
+const Shoes = () => {
   return (
     <div>Shoes</div>
   )
 }
 
-export default index
+export default Shoes
+
+
+Shoes.getLayOut = function PageLayOut(page) {
+
+  return <>
+    
+     
+        {page}
+      
+
+    
+  </>
+}
