@@ -7,3 +7,10 @@ const Product = () => {
 }
 
 export default Product
+
+
+Product.getLayOut = function PageLayOut(page) {
+  return <>
+    {page}
+  </>
+}
