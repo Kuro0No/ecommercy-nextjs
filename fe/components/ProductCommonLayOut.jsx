@@ -1,5 +1,5 @@
 import { Col, Row, Checkbox, Select, Divider, Radio } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
@@ -18,13 +18,28 @@ const ProductCommonLayOut = ({ children }) => {
     const category = ['All','Mobile', 'Clothing', 'Computer', 'Shoes']
     const options = ['Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
-    const pathname = router.pathname.split('/')[2]
+    const [checked,setChecked ] = useState()
+    useEffect(() => {
+        const path = category.filter(item => {
+            return router.pathname.includes(item.toLowerCase())
+            
+
+        })
+        setChecked(path[0].toLowerCase())
+        
+    },[router.pathname])
     
     
 
     const categoryHandle = (e) => {
         // dispath()
-        router.push(`/product/${e.target.value.toLowerCase()}`)
+        if (e.target.value !=='All') {
+
+            router.push(`/product/${e.target.value.toLowerCase()}`)
+        } else {
+            router.push(`/product`)
+
+        }
     }
 
     return (
@@ -37,7 +52,7 @@ const ProductCommonLayOut = ({ children }) => {
                         <Radio.Group >
                             {category.map((item, i) => {
                                 return <li key={item}>
-                                    <Radio checked={pathname == item.toLowerCase() && true} onChange={(e) => categoryHandle(e)} value={item}>{item}</Radio >
+                                    <Radio checked={item === checked} onChange={(e) => categoryHandle(e)} value={item}>{item}</Radio >
                                 </li>
                             })}
                         </Radio.Group>
