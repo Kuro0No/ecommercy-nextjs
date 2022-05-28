@@ -21,25 +21,27 @@ const ProductCommonLayOut = ({ children }) => {
     const [checked, setChecked] = useState('All')
     useEffect(() => {
 
-        router.query.category ?
+        if (router.query.category) {
+
             setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
-            :
+        } else {
             setChecked('All')
+        }
 
 
     }, [router.query.category])
-    
-    
+
+
 
 
     const categoryHandle = (e) => {
 
-        dispath(getProducts(e.target.value.toLowerCase()))
+        // dispath(getProducts(e.target.value.toLowerCase()))
         if (e.target.value !== 'All') {
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
-            dispath(getProducts(undefined))
-            router.push(`/product`)
+            // dispath(getProducts(undefined))
+            router.push(`/product/`)
 
         }
 
@@ -53,7 +55,7 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Category</h1>
                     <Divider className={css.divider} />
                     <ul>
-                        <Radio.Group onChange={(e) => categoryHandle(e)} defaultValue='All' value={checked ? checked : 'All'}>
+                        <Radio.Group onChange={(e) => categoryHandle(e)}  value={checked ? checked : 'All'}>
                             {category.map((item, i) => {
                                 return <li key={item}>
                                     <Radio value={item}>{item}</Radio >

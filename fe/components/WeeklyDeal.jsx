@@ -13,7 +13,7 @@ const WeekyDeal = () => {
         <Col span={15}>
           <Row span={24} gutter={[16, 24]}>
             <Col span={12} className={css.product_wrap}>
-              <Link href='/product/shoes'>
+              <Link href='/product/?category=shoes'>
                 <a>
                   <div className={css.titleProduct}>
                     <Title >Shoes</Title>
@@ -30,7 +30,7 @@ const WeekyDeal = () => {
               </Link>
             </Col>
             <Col span={12} className={css.product_wrap}>
-              <Link href='/product/clothing'>
+              <Link href='/product/?category=clothing'>
                 <a>
 
 
@@ -52,7 +52,7 @@ const WeekyDeal = () => {
             </Col>
           </Row>
           <Col span={24} className={css.product_wrap}>
-            <Link href='/product/computer'>
+            <Link href='/product/?category=computer'>
               <a>
 
 
@@ -75,7 +75,7 @@ const WeekyDeal = () => {
 
         </Col>
         <Col span={9} className={css.product_wrap}>
-          <Link href='/product/mobile'>
+          <Link href='/product/?category=mobile'>
             <a>
 
 
