@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
-import {categorySlice} from '../redux/reducer'
+import { categorySlice, getProducts } from '../redux/reducer'
 
 
 const { Option } = Select;
@@ -15,32 +15,36 @@ const ProductCommonLayOut = ({ children }) => {
     const dispath = useDispatch()
 
 
-    const category = ['All','Mobile', 'Clothing', 'Computer', 'Shoes']
+    const category = ['All', 'Mobile', 'Clothing', 'Computer', 'Shoes',]
     const options = ['Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
-    const [checked,setChecked ] = useState()
+    const [checked, setChecked] = useState('All')
     useEffect(() => {
-        const path = category.filter(item => {
-            return router.pathname.includes(item.toLowerCase())
-            
 
-        })
-        setChecked(path[0].toLowerCase())
-        
-    },[router.pathname])
+        router.query.category ?
+            setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
+            :
+            setChecked('All')
+
+
+    }, [router.query.category])
     
     
+
 
     const categoryHandle = (e) => {
-        // dispath()
-        if (e.target.value !=='All') {
 
-            router.push(`/product/${e.target.value.toLowerCase()}`)
+        dispath(getProducts(e.target.value.toLowerCase()))
+        if (e.target.value !== 'All') {
+            router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
+            dispath(getProducts(undefined))
             router.push(`/product`)
 
         }
+
     }
+
 
     return (
         <Row gutter={[16, 24]} >
@@ -49,10 +53,10 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Category</h1>
                     <Divider className={css.divider} />
                     <ul>
-                        <Radio.Group >
+                        <Radio.Group onChange={(e) => categoryHandle(e)} defaultValue='All' value={checked ? checked : 'All'}>
                             {category.map((item, i) => {
                                 return <li key={item}>
-                                    <Radio checked={item === checked} onChange={(e) => categoryHandle(e)} value={item}>{item}</Radio >
+                                    <Radio value={item}>{item}</Radio >
                                 </li>
                             })}
                         </Radio.Group>
