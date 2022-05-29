@@ -11,11 +11,10 @@ const Product = () => {
   const dispath = useDispatch()
   const router = useRouter()
   const { products, loading } = useSelector(state => state.products)
-  useEffect(() => {
-    dispath(getProducts(router.query.category))
+  // useEffect(() => {
+  //   dispath(getProducts(router.query.category))
    
-  }, [router.query])
-  console.log(router)
+  // }, [router.query])
   
 
 

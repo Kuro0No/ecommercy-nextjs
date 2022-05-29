@@ -13,30 +13,52 @@ const ProductCommonLayOut = ({ children }) => {
     const router = useRouter()
     // const {params } =  router.query
     const dispath = useDispatch()
+    let params = new URLSearchParams(router.asPath.slice(9));
+    let name = params.get('category')
 
 
-    const category = ['All', 'Mobile', 'Clothing', 'Computer', 'Shoes',]
+
+    const category = [
+        { name: 'All', id: 0 },
+        { name: 'Clothing', id: 4 },
+        { name: 'Computer', id: 3 },
+        { name: 'Shoes', id: 1 },
+        { name: 'Mobile', id: 2 },
+    ]
+    const idParam = category.filter(item => item.name.toLowerCase() === name)
+
     const options = ['Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
     const [checked, setChecked] = useState('All')
+
+
     useEffect(() => {
+        // chuaw load data thi query = {}
 
         if (router.query.category) {
-
             setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
         } else {
             setChecked('All')
         }
 
 
-    }, [router.query.category])
+    }, [router.query.category, name])
 
+    useEffect(() => {
+        if (idParam.length > 0) {
+            dispath(getProducts(idParam[0].id))
 
+        } else {
+            dispath(getProducts(0))
+        }
+    }, [idParam])
+
+    
 
 
     const categoryHandle = (e) => {
 
-        // dispath(getProducts(e.target.value.toLowerCase()))
+        dispath(getProducts(e.target.id))
         if (e.target.value !== 'All') {
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
@@ -55,10 +77,11 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Category</h1>
                     <Divider className={css.divider} />
                     <ul>
-                        <Radio.Group onChange={(e) => categoryHandle(e)}  value={checked ? checked : 'All'}>
+                        <Radio.Group onChange={(e) => categoryHandle(e)} value={checked ? checked : 'All'}>
                             {category.map((item, i) => {
-                                return <li key={item}>
-                                    <Radio value={item}>{item}</Radio >
+
+                                return <li key={item.name}>
+                                    <Radio value={item.name} id={item.id} name={item.name}>{item.name}</Radio >
                                 </li>
                             })}
                         </Radio.Group>
