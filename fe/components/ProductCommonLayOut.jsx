@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
-import { categorySlice, getProducts } from '../redux/reducer'
+import { categorySlice, getProducts ,getSortPriceProducts} from '../redux/reducer'
 
 
 const { Option } = Select;
@@ -15,7 +15,8 @@ const ProductCommonLayOut = ({ children }) => {
     const dispath = useDispatch()
     let params = new URLSearchParams(router.asPath.slice(9));
     let name = params.get('category')
-
+    let price = params.get('price')
+    console.log(price)
 
 
     const category = [
@@ -68,6 +69,13 @@ const ProductCommonLayOut = ({ children }) => {
         }
 
     }
+    const handlePrice =(e) => {
+        
+        dispath(getSortPriceProducts({
+            sort: e,
+            name:'1'
+        }))
+    }
 
 
     return (
@@ -91,7 +99,7 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Price</h1>
                     <Divider className={css.divider} />
 
-                    <Select style={{ width: 120 }} >
+                    <Select onChange={(e) => handlePrice(e)} style={{ width: 120 }} >
                         {options.map(item => {
                             return <Option key={item} value={item}>{item}</Option>
                         })}
