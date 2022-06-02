@@ -3,8 +3,9 @@ import axiosConfig from '../axiosConfig'
 export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
-        if (arg !== 0) {
-            const res = await axiosConfig.get(`/list-products/?category=${arg}`)
+        const { category, sort } = arg
+        if (category !== 0) {
+            const res = await axiosConfig.get(`/list-products/?category=${category}`)
             return res.data.results
         } else {
             const res = await axiosConfig.get(`/list-products/`)
@@ -18,13 +19,16 @@ export const getProducts = createAsyncThunk(
 export const getSortPriceProducts = createAsyncThunk(
     'products/getSortPriceProducts',
     async (arg) => {
-        console.log(arg)
-        if (arg !== 0) {
-            const res = await axiosConfig.get(`/list-products/?category=${arg}`)
-            return res.data.results
-        } else {
-            const res = await axiosConfig.get(`/list-products/`)
-            return res.data.results
+        const { category, sort } = arg
+        if (category) {
+
+            if (sort === 'Increase') {
+                const res = await axiosConfig.get(`/list-products/?category=${category}&ordering=price`)
+                return res.data.results
+            } else {
+                const res = await axiosConfig.get(`/list-products/?category=${category}&ordering=-price`)
+                return res.data.results
+            }
         }
 
 
@@ -62,6 +66,7 @@ export const productCategorySlice = createSlice({
         },
         [getSortPriceProducts.fulfilled]: (state, action) => {
             state.products = action.payload
+            console.log(action.payload)
             state.loading = false
             state.err = ''
 

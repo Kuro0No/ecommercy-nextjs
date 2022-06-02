@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
-import { categorySlice, getProducts ,getSortPriceProducts} from '../redux/reducer'
+import { categorySlice, getProducts, getSortPriceProducts } from '../redux/reducer'
 
 
 const { Option } = Select;
@@ -25,11 +25,12 @@ const ProductCommonLayOut = ({ children }) => {
         { name: 'Shoes', id: 1 },
         { name: 'Mobile', id: 2 },
     ]
-    const idParam = category.filter(item => item.name.toLowerCase() === name)
+    const idCategory = category.filter(item => item.name.toLowerCase() === name)
 
     const options = ['Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
     const [checked, setChecked] = useState('All')
+    console.log(idCategory)
 
 
     useEffect(() => {
@@ -45,42 +46,56 @@ const ProductCommonLayOut = ({ children }) => {
     }, [router.query.category, name])
 
     useEffect(() => {
-        if (idParam.length > 0) {
-            dispath(getProducts(idParam[0].id))
+        if (idCategory.length > 0) {
+            dispath(getProducts({
+                sort: '',
+                category: idCategory[0].id,
+                color: ''
+            }))
 
         } else {
-            dispath(getProducts(0))
+            dispath(getProducts(
+                {
+                    sort: '',
+                    category: 0,
+                    color: ''
+                }))
         }
-    }, [idParam])
+    }, [idCategory])
 
-    console.log(router)
 
 
     const categoryHandle = (e) => {
 
-        dispath(getProducts(e.target.id))
         if (e.target.value !== 'All') {
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
-            // dispath(getProducts(undefined))
             router.push(`/product/`)
 
         }
+        dispath(getProducts(
+            {
+                sort: '',
+                category: idCategory[0].id,
+                color: ''
+            }
+        ))
 
     }
-    const handlePrice =(e) => {
-        if (name) {
-            router.push(`?category=${name}&price=${e.toLowerCase()}`)
+    const handlePrice = (e) => {
+        dispath(getProducts({
+            sort: e,
+            category: idCategory[0].id,
+            color: ''
+        }))
+        // if (name) {
+        //     router.push(`?category=${name}&price=${e.toLowerCase()}`)
 
-        } else {
-            router.push(`?price=${e.toLowerCase()}`)
+        // } else {
+        //     router.push(`?price=${e.toLowerCase()}`)
 
-        }
-        
-        // dispath(getSortPriceProducts({
-        //     sort: e,
-        //     name:'1'
-        // }))
+        // }
+
     }
 
 
