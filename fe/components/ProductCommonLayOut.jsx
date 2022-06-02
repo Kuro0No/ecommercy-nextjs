@@ -16,7 +16,6 @@ const ProductCommonLayOut = ({ children }) => {
     let params = new URLSearchParams(router.asPath.slice(9));
     let name = params.get('category')
     let price = params.get('price')
-    console.log(price)
 
 
     const category = [
@@ -54,7 +53,7 @@ const ProductCommonLayOut = ({ children }) => {
         }
     }, [idParam])
 
-    
+    console.log(router)
 
 
     const categoryHandle = (e) => {
@@ -70,11 +69,18 @@ const ProductCommonLayOut = ({ children }) => {
 
     }
     const handlePrice =(e) => {
+        if (name) {
+            router.push(`?category=${name}&price=${e.toLowerCase()}`)
+
+        } else {
+            router.push(`?price=${e.toLowerCase()}`)
+
+        }
         
-        dispath(getSortPriceProducts({
-            sort: e,
-            name:'1'
-        }))
+        // dispath(getSortPriceProducts({
+        //     sort: e,
+        //     name:'1'
+        // }))
     }
 
 
