@@ -4,7 +4,7 @@ export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
         const { category, sort } = arg
-        
+
         if (category !== 0) {
             const res = await axiosConfig.get(`/list-products/?category=${category}`)
             return res.data.results
@@ -21,13 +21,25 @@ export const getSortPriceProducts = createAsyncThunk(
     'products/getSortPriceProducts',
     async (arg) => {
         const { category, sort } = arg
-        if (category) {
+        
+        if (category !==0) {
+            console.log('yes')
 
             if (sort === 'Increase') {
                 const res = await axiosConfig.get(`/list-products/?category=${category}&ordering=price`)
                 return res.data.results
             } else {
                 const res = await axiosConfig.get(`/list-products/?category=${category}&ordering=-price`)
+                return res.data.results
+            }
+        } else {
+            console.log(category)
+
+            if (sort === 'Increase') {
+                const res = await axiosConfig.get(`/list-products/?ordering=price`)
+                return res.data.results
+            } else {
+                const res = await axiosConfig.get(`/list-products/?ordering=-price`)
                 return res.data.results
             }
         }
@@ -52,7 +64,7 @@ export const productCategorySlice = createSlice({
 
         },
         [getProducts.fulfilled]: (state, action) => {
-           
+
 
             state.products = action.payload
             state.loading = false
@@ -63,13 +75,13 @@ export const productCategorySlice = createSlice({
             state.err = 'failed'
         },
         [getSortPriceProducts.pending]: (state) => {
-      
+
             state.loading = true
             state.err = ''
 
         },
         [getSortPriceProducts.fulfilled]: (state, action) => {
-   
+
             state.products = action.payload
             state.loading = false
             state.err = ''

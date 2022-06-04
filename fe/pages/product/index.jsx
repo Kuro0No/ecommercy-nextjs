@@ -1,4 +1,4 @@
-import React, { useEffect,memo } from 'react'
+import React, { useEffect, memo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../../redux/reducer'
 import { Card, Col, Row } from 'antd';
@@ -10,15 +10,16 @@ const { Meta } = Card;
 const Product = () => {
   const dispath = useDispatch()
   const router = useRouter()
+  const { products, loading } = useSelector(state => state.products)
   
-  const { products, loading } = useSelector(state =>state.products)
- 
- 
+
+
+
+
   // useEffect(() => {
   //   dispath(getProducts(router.query.category))
-   
+
   // }, [])
-  console.log('render at product')
 
   return (
     <Row className={css.container} gutter={[16, 24]}>
@@ -39,6 +40,7 @@ const Product = () => {
 }
 
 export default Product
+
 
 
 Product.getLayOut = function PageLayOut(page) {
