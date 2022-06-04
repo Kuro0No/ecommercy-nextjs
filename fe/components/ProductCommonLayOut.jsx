@@ -16,9 +16,6 @@ const ProductCommonLayOut = ({ children }) => {
     let name = params.get('category')
     let price = params.get('price')
 
-
-
-
     const category = [
         { name: 'All', id: 0 },
         { name: 'Clothing', id: 4 },
@@ -31,7 +28,6 @@ const ProductCommonLayOut = ({ children }) => {
     const options = ['None', 'Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
     const [checked, setChecked] = useState('All')
-
 
     useEffect(() => {
         // chuaw load data thi query = {}
@@ -59,9 +55,6 @@ const ProductCommonLayOut = ({ children }) => {
         }
     }, [])
 
-
-
-
     const categoryHandle = (e) => {
         const item = category.find(item => item.name === e.target.value)
 
@@ -82,13 +75,12 @@ const ProductCommonLayOut = ({ children }) => {
         }
     }
     const handlePrice = (e) => {
-
         if (name) {
             if (e !== 'None') {
                 router.push(`?category=${name}&price=${e.toLowerCase()}`)
                 dispath(getSortPriceProducts({
                     sort: e,
-                    category: 0,
+                    category: idCategory[0].id,
                     color: ''
                 }))
             } else {
@@ -98,20 +90,15 @@ const ProductCommonLayOut = ({ children }) => {
                     category: idCategory[0].id,
                     color: ''
                 }))
-
             }
         } else {
-         
+            e !== 'None' ? router.push(`?price=${e.toLowerCase()}`) : router.push(`/product`)
             dispath(getSortPriceProducts({
                 sort: e,
                 category: 0,
                 color: ''
             }))
-            router.push(`?price=${e.toLowerCase()}`)
         }
-
-
-
     }
 
 

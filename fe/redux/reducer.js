@@ -21,9 +21,9 @@ export const getSortPriceProducts = createAsyncThunk(
     'products/getSortPriceProducts',
     async (arg) => {
         const { category, sort } = arg
-        
-        if (category !==0) {
-            console.log('yes')
+
+        if (category !== 0) {
+
 
             if (sort === 'Increase') {
                 const res = await axiosConfig.get(`/list-products/?category=${category}&ordering=price`)
@@ -33,13 +33,16 @@ export const getSortPriceProducts = createAsyncThunk(
                 return res.data.results
             }
         } else {
-            console.log(category)
+
 
             if (sort === 'Increase') {
                 const res = await axiosConfig.get(`/list-products/?ordering=price`)
                 return res.data.results
-            } else {
+            } else if (sort === 'Decrease') {
                 const res = await axiosConfig.get(`/list-products/?ordering=-price`)
+                return res.data.results
+            } else {
+                const res = await axiosConfig.get(`/list-products/`)
                 return res.data.results
             }
         }
