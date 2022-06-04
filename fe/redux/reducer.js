@@ -52,23 +52,25 @@ export const productCategorySlice = createSlice({
 
         },
         [getProducts.fulfilled]: (state, action) => {
+           
+
             state.products = action.payload
             state.loading = false
             state.err = ''
-            
 
         },
         [getProducts.rejected]: (state) => {
             state.err = 'failed'
         },
         [getSortPriceProducts.pending]: (state) => {
+      
             state.loading = true
             state.err = ''
 
         },
         [getSortPriceProducts.fulfilled]: (state, action) => {
+   
             state.products = action.payload
-            console.log(state.products)
             state.loading = false
             state.err = ''
 

@@ -56,6 +56,8 @@ const ProductCommonLayOut = ({ children }) => {
                 }))
         }
     }, [])
+    console.log('render at common')
+
 
 
 
@@ -100,7 +102,7 @@ const ProductCommonLayOut = ({ children }) => {
 
 
     }
-    
+
 
     return (
         <Row gutter={[16, 24]} >
@@ -123,9 +125,10 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Price</h1>
                     <Divider className={css.divider} />
 
-                    <Select onChange={(e) => handlePrice(e)} defaultValue="None" value ={price ? options.find(item => item.toLowerCase() === price) : 'None'} style={{ width: 120 }} >
+                    <Select onChange={(e) => handlePrice(e)} defaultValue="None"  style={{ width: 120 }} >
                         {options.map(item => {
                             return <Option key={item} value={item}>{item}</Option>
+
                         })}
                     </Select>
 

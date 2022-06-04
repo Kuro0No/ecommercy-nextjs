@@ -10,19 +10,16 @@ const { Meta } = Card;
 const Product = () => {
   const dispath = useDispatch()
   const router = useRouter()
-  const { products, loading } = useSelector(state => state.products)
+  
+  const { products, loading } = useSelector(state =>state.products)
+ 
+ 
   // useEffect(() => {
   //   dispath(getProducts(router.query.category))
    
-  // }, [router.query])
-  console.log(products)
-  
+  // }, [])
+  console.log('render at product')
 
-
-
-  useEffect(() => {
-    dispath(getProducts())
-  }, [dispath])
   return (
     <Row className={css.container} gutter={[16, 24]}>
       {products.map(item => {
