@@ -11,7 +11,6 @@ const { Option } = Select;
 
 const ProductCommonLayOut = ({ children }) => {
     const router = useRouter()
-    // const {params } =  router.query
     const dispath = useDispatch()
     let params = new URLSearchParams(router.asPath.slice(9));
     let name = params.get('category')
@@ -27,22 +26,18 @@ const ProductCommonLayOut = ({ children }) => {
     ]
     const idCategory = category.filter(item => item.name.toLowerCase() === name)
 
-    const options = ['Decrease', 'Increase']
+    const options = ['None', 'Decrease', 'Increase']
     const colors = ['Grey', 'Black', 'Mix']
     const [checked, setChecked] = useState('All')
-    console.log(idCategory)
 
 
     useEffect(() => {
         // chuaw load data thi query = {}
-
         if (router.query.category) {
             setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
         } else {
             setChecked('All')
         }
-
-
     }, [router.query.category, name])
 
     useEffect(() => {
@@ -52,7 +47,6 @@ const ProductCommonLayOut = ({ children }) => {
                 category: idCategory[0].id,
                 color: ''
             }))
-
         } else {
             dispath(getProducts(
                 {
@@ -61,43 +55,52 @@ const ProductCommonLayOut = ({ children }) => {
                     color: ''
                 }))
         }
-    }, [idCategory])
+    }, [])
 
 
 
     const categoryHandle = (e) => {
+        const item = category.find(item => item.name === e.target.value)
 
         if (e.target.value !== 'All') {
+            dispath(getProducts({
+                sort: '',
+                category: item.id,
+                color: ''
+            }))
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
-            router.push(`/product/`)
-
-        }
-        dispath(getProducts(
-            {
+            dispath(getProducts({
                 sort: '',
-                category: idCategory[0].id,
+                category: 0,
                 color: ''
-            }
-        ))
-
+            }))
+            router.push(`/product/`)
+        }
     }
     const handlePrice = (e) => {
-        dispath(getProducts({
+
+        dispath(getSortPriceProducts({
             sort: e,
             category: idCategory[0].id,
             color: ''
         }))
-        // if (name) {
-        //     router.push(`?category=${name}&price=${e.toLowerCase()}`)
 
-        // } else {
-        //     router.push(`?price=${e.toLowerCase()}`)
+        if (name) {
+            if (e !== 'None') {
+                router.push(`?category=${name}&price=${e.toLowerCase()}`)
+            } else {
+                router.push(`?category=${name}`)
 
-        // }
+            }
+        } else {
+            router.push(`?price=${e.toLowerCase()}`)
+        }
+
+
 
     }
-
+    
 
     return (
         <Row gutter={[16, 24]} >
@@ -120,7 +123,7 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Price</h1>
                     <Divider className={css.divider} />
 
-                    <Select onChange={(e) => handlePrice(e)} style={{ width: 120 }} >
+                    <Select onChange={(e) => handlePrice(e)} defaultValue="None" value ={price ? options.find(item => item.toLowerCase() === price) : 'None'} style={{ width: 120 }} >
                         {options.map(item => {
                             return <Option key={item} value={item}>{item}</Option>
                         })}

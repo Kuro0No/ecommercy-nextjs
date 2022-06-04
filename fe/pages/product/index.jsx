@@ -15,6 +15,7 @@ const Product = () => {
   //   dispath(getProducts(router.query.category))
    
   // }, [router.query])
+  console.log(products)
   
 
 

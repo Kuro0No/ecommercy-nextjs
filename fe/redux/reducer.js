@@ -4,6 +4,7 @@ export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
         const { category, sort } = arg
+        
         if (category !== 0) {
             const res = await axiosConfig.get(`/list-products/?category=${category}`)
             return res.data.results
@@ -54,6 +55,7 @@ export const productCategorySlice = createSlice({
             state.products = action.payload
             state.loading = false
             state.err = ''
+            
 
         },
         [getProducts.rejected]: (state) => {
@@ -66,7 +68,7 @@ export const productCategorySlice = createSlice({
         },
         [getSortPriceProducts.fulfilled]: (state, action) => {
             state.products = action.payload
-            console.log(action.payload)
+            console.log(state.products)
             state.loading = false
             state.err = ''
 
