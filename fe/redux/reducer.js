@@ -4,6 +4,11 @@ export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
         const { category, sort } = arg
+        console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sort !== 'None' ? `&ordering=${sort}` : ''}`)
+        const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !==0) 
+
+        
+
 
         if (category !== 0) {
             const res = await axiosConfig.get(`/list-products/?category=${category}`)

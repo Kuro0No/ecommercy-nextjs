@@ -41,16 +41,16 @@ const ProductCommonLayOut = ({ children }) => {
     useEffect(() => {
         if (idCategory.length > 0) {
             dispath(getProducts({
-                sort: '',
+                sort: null,
                 category: idCategory[0].id,
-                color: ''
+                color: null
             }))
         } else {
             dispath(getProducts(
                 {
-                    sort: '',
+                    sort: null,
                     category: 0,
-                    color: ''
+                    color: null
                 }))
         }
     }, [])
@@ -60,16 +60,16 @@ const ProductCommonLayOut = ({ children }) => {
 
         if (e.target.value !== 'All') {
             dispath(getProducts({
-                sort: '',
+                sort: null,
                 category: item.id,
-                color: ''
+                color: null
             }))
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
             dispath(getProducts({
-                sort: '',
+                sort: null,
                 category: 0,
-                color: ''
+                color: null
             }))
             router.push(`/product/`)
         }
@@ -78,25 +78,25 @@ const ProductCommonLayOut = ({ children }) => {
         if (name) {
             if (e !== 'None') {
                 router.push(`?category=${name}&price=${e.toLowerCase()}`)
-                dispath(getSortPriceProducts({
+                dispath(getProducts({
                     sort: e,
                     category: idCategory[0].id,
-                    color: ''
+                    color: null
                 }))
             } else {
                 router.push(`?category=${name}`)
-                dispath(getSortPriceProducts({
+                dispath(getProducts({
                     sort: e,
                     category: idCategory[0].id,
-                    color: ''
+                    color: null
                 }))
             }
         } else {
             e !== 'None' ? router.push(`?price=${e.toLowerCase()}`) : router.push(`/product`)
-            dispath(getSortPriceProducts({
+            dispath(getProducts({
                 sort: e,
                 category: 0,
-                color: ''
+                color: null
             }))
         }
     }
