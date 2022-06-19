@@ -4,10 +4,11 @@ export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
         const { category, sort } = arg
-        console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sort !== 'None' ? `&ordering=${sort}` : ''}`)
-        const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !==0) 
+        const sortPrice = sort !== 'None' &&  (sort === 'Decrease' ? '-price' : 'price')
+        console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sort !== 'None' ? `&ordering=${sortPrice}` : ''}`)
+        const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !== 0)
+        console.log(sortPrice)
 
-        
 
 
         if (category !== 0) {
