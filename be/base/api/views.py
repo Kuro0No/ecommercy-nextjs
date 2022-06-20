@@ -38,10 +38,10 @@ class TotalProductView(viewsets.ModelViewSet):
     
     serializer_class = TotalProductsSerializers
     pagination_class = CustomPageSearchNumberPagination
-    filter_backends = [DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter] #filters.BaseFilterBackend, filters.OrderingFilter,
-    ordering_fields  = ['price',]
-    filter_fields = ['color','category']   
+    filter_backends = [filters.SearchFilter,DjangoFilterBackend,filters.OrderingFilter] #filters.BaseFilterBackend, filters.OrderingFilter,
     search_fields = ['name']
+    ordering_fields  = ['price',]
+    filterset_fields  = ['color','category']   
     queryset = TotalProducts.objects.all()
 
     # def get_queryset(self):

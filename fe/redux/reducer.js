@@ -3,23 +3,20 @@ import axiosConfig from '../axiosConfig'
 export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
-        const { category, sort } = arg
-        const sortPrice = sort !== 'None' &&  (sort === 'Decrease' ? '-price' : 'price')
-        console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sort !== 'None' ? `&ordering=${sortPrice}` : ''}`)
-        const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !== 0)
-        console.log(sortPrice)
+        const { category, sort,color } = arg
+        const sortPrice = (!sort || sort == 'None') ? null : (sort === 'decrease' ? '-price' : 'price')
+
+        const linkCategory = category !== 0 ? `category=${category}` : ''
+        const linkSort = sort && sort !== 'None' ? `&ordering=${sortPrice}` : ''
+        const linkColor = color.length>0 ? `&color=${color.join('&color=')}` : ''
+        const a = [linkCategory,linkColor,linkSort]
 
 
-
-        if (category !== 0) {
-            const res = await axiosConfig.get(`/list-products/?category=${category}`)
-            return res.data.results
-        } else {
-            const res = await axiosConfig.get(`/list-products/`)
-            return res.data.results
-        }
-
-
+        // const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !== 0)
+        // console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sortPrice ? `&ordering=${sortPrice}` : ''}`)
+        
+        const res = await axiosConfig.get(`/list-products/?${linkCategory}${linkSort}${linkColor}`)
+        return res.data.results
     }
 )
 
@@ -73,8 +70,6 @@ export const productCategorySlice = createSlice({
 
         },
         [getProducts.fulfilled]: (state, action) => {
-
-
             state.products = action.payload
             state.loading = false
             state.err = ''
@@ -83,22 +78,7 @@ export const productCategorySlice = createSlice({
         [getProducts.rejected]: (state) => {
             state.err = 'failed'
         },
-        [getSortPriceProducts.pending]: (state) => {
-
-            state.loading = true
-            state.err = ''
-
-        },
-        [getSortPriceProducts.fulfilled]: (state, action) => {
-
-            state.products = action.payload
-            state.loading = false
-            state.err = ''
-
-        },
-        [getSortPriceProducts.rejected]: (state) => {
-            state.err = 'failed'
-        },
+        
     },
     reducers: {
         getProductFilter: (state, action) => {

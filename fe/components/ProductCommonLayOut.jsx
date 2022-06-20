@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
-import { categorySlice, getProducts, getSortPriceProducts } from '../redux/reducer'
+import { categorySlice, getProducts } from '../redux/reducer'
 
 
 const { Option } = Select;
@@ -24,15 +24,23 @@ const ProductCommonLayOut = ({ children }) => {
         { name: 'Mobile', id: 2 },
     ]
     const idCategory = category.filter(item => item.name.toLowerCase() === name)
+    
 
     const options = ['None', 'Decrease', 'Increase']
-    const colors = ['Grey', 'Black', 'Mix']
+    const colors = [
+     {name:'Mix', id:1},
+     {name:'Grey', id:2},
+     {name:'Green', id:3},
+     {name:'Black', id:5},
+    ]
     const [checked, setChecked] = useState('All')
+    
 
     useEffect(() => {
         // chuaw load data thi query = {}
         if (router.query.category) {
             setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
+            
         } else {
             setChecked('All')
         }
@@ -40,17 +48,18 @@ const ProductCommonLayOut = ({ children }) => {
 
     useEffect(() => {
         if (idCategory.length > 0) {
+            
             dispath(getProducts({
-                sort: null,
+                sort: price,
                 category: idCategory[0].id,
-                color: null
+                color: []
             }))
         } else {
             dispath(getProducts(
                 {
                     sort: null,
                     category: 0,
-                    color: null
+                    color: []
                 }))
         }
     }, [])
@@ -58,18 +67,19 @@ const ProductCommonLayOut = ({ children }) => {
     const categoryHandle = (e) => {
         const item = category.find(item => item.name === e.target.value)
 
+
         if (e.target.value !== 'All') {
             dispath(getProducts({
                 sort: null,
                 category: item.id,
-                color: null
+                color: []
             }))
             router.push(`/product/?category=${e.target.value.toLowerCase()}`)
         } else {
             dispath(getProducts({
                 sort: null,
                 category: 0,
-                color: null
+                color: []
             }))
             router.push(`/product/`)
         }
@@ -81,14 +91,14 @@ const ProductCommonLayOut = ({ children }) => {
                 dispath(getProducts({
                     sort: e,
                     category: idCategory[0].id,
-                    color: null
+                    color: []
                 }))
             } else {
                 router.push(`?category=${name}`)
                 dispath(getProducts({
                     sort: e,
                     category: idCategory[0].id,
-                    color: null
+                    color: []
                 }))
             }
         } else {
@@ -96,9 +106,18 @@ const ProductCommonLayOut = ({ children }) => {
             dispath(getProducts({
                 sort: e,
                 category: 0,
-                color: null
+                color: []
             }))
         }
+    }
+    const handleColors = (e) => {
+        console.log(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
+        dispath(getProducts({
+            sort: price,
+            category: idCategory.length>0 ? idCategory[0].id : 0,
+            color: e 
+        }))
+        // router.push(e.length>0 ? `${`&color=${e.join('&color=')}`}` : '')
     }
 
 
@@ -134,22 +153,23 @@ const ProductCommonLayOut = ({ children }) => {
                 <div className={css.options_group}>
                     <h1>Color</h1>
                     <Divider className={css.divider} />
+                    <Checkbox.Group onChange={(e) => handleColors(e)} >
+                        <ul>
+                            {colors.map((item) => {
 
-                    <ul>
-                        {colors.map((item, i) => {
-
-                            return <li key={item} >
-                                <Checkbox >{item}</Checkbox>
-                            </li>
-                        })}
-                    </ul>
+                                return <li key={item.name} >
+                                    <Checkbox value={item.id}>{item.name}</Checkbox>
+                                </li>
+                            })}
+                        </ul>
+                    </Checkbox.Group>
                 </div>
             </Col>
             <Col span={20}>
                 {children}
 
             </Col>
-        </Row>
+        </Row >
     )
 }
 
