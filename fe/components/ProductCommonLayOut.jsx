@@ -111,13 +111,14 @@ const ProductCommonLayOut = ({ children }) => {
         }
     }
     const handleColors = (e) => {
-        console.log(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
+        // console.log(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
         dispath(getProducts({
             sort: price,
             category: idCategory.length>0 ? idCategory[0].id : 0,
             color: e 
         }))
-        // router.push(e.length>0 ? `${`&color=${e.join('&color=')}`}` : '')
+        // router.push(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
+        console.log(params)
     }
 
 

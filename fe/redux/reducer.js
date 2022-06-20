@@ -4,14 +4,12 @@ export const getProducts = createAsyncThunk(
     'products/getProducts',
     async (arg) => {
         const { category, sort,color } = arg
-        const sortPrice = (!sort || sort == 'None') ? null : (sort === 'decrease' ? '-price' : 'price')
+        const sortPrice = (!sort || sort == 'None') ? null : (sort === 'Decrease' ? '-price' : 'price')
 
         const linkCategory = category !== 0 ? `category=${category}` : ''
         const linkSort = sort && sort !== 'None' ? `&ordering=${sortPrice}` : ''
         const linkColor = color.length>0 ? `&color=${color.join('&color=')}` : ''
-        const a = [linkCategory,linkColor,linkSort]
-
-
+        
         // const a = Object.keys(arg).filter(key => arg[key] !== null && arg[key] !== 0)
         // console.log(`/list-products/?${category !== 0 ? `category=${category}` : ''}${sort && sortPrice ? `&ordering=${sortPrice}` : ''}`)
         
