@@ -14,7 +14,8 @@ const ProductCommonLayOut = ({ children }) => {
     const dispath = useDispatch()
     let params = new URLSearchParams(router.asPath.slice(9));
     let name = params.get('category')
-    let price = params.get('price')
+    let price = params.get('sort')
+    let colorsQuery = params.getAll('color')
 
     const category = [
         { name: 'All', id: 0 },
@@ -24,45 +25,39 @@ const ProductCommonLayOut = ({ children }) => {
         { name: 'Mobile', id: 2 },
     ]
     const idCategory = category.filter(item => item.name.toLowerCase() === name)
-    
+
 
     const options = ['None', 'Decrease', 'Increase']
     const colors = [
-     {name:'Mix', id:1},
-     {name:'Grey', id:2},
-     {name:'Green', id:3},
-     {name:'Black', id:5},
+        { name: 'Mix', id: 1 },
+        { name: 'Grey', id: 2 },
+        { name: 'Green', id: 3 },
+        { name: 'Black', id: 5 },
     ]
     const [checked, setChecked] = useState('All')
-    
+    const [sort, setSort] = useState('None')
+    const [color, setColor] = useState([])
 
     useEffect(() => {
         // chuaw load data thi query = {}
-        if (router.query.category) {
-            setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1))
-            
-        } else {
-            setChecked('All')
-        }
-    }, [router.query.category, name])
+        console.log(colors.filter(item => colors.includes(item.id)))
+        router.query.category ? setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1)) : setChecked('All')
+        router.query.sort ? setSort(router.query.sort[0].toUpperCase() + router.query.sort.slice(1)) : setSort('None')
+        // colorsQuery.length > 0 && setColor(colorsQuery) 
+
+
+    }, [Object.keys(router.query), ])
 
     useEffect(() => {
-        if (idCategory.length > 0) {
-            
+   
             dispath(getProducts({
-                sort: price,
-                category: idCategory[0].id,
-                color: []
+                sort: price && price !== 'none' ? price[0].toUpperCase() + price.slice(1) : null,
+                category: idCategory.length > 0 ?  idCategory[0].id : 0,
+                color: colorsQuery.length > 0 ? colors.filter(element => colorsQuery.includes(element.name.toLowerCase())).map(item => item.id)  : []
             }))
-        } else {
-            dispath(getProducts(
-                {
-                    sort: null,
-                    category: 0,
-                    color: []
-                }))
-        }
+
     }, [])
+   
 
     const categoryHandle = (e) => {
         const item = category.find(item => item.name === e.target.value)
@@ -74,54 +69,68 @@ const ProductCommonLayOut = ({ children }) => {
                 category: item.id,
                 color: []
             }))
-            router.push(`/product/?category=${e.target.value.toLowerCase()}`)
+
+
         } else {
             dispath(getProducts({
                 sort: null,
                 category: 0,
                 color: []
             }))
-            router.push(`/product/`)
+
         }
+        router.push({
+            pathname: '/product',
+            query: {
+                ...(e.target.value !== 'All') && { category: e.target.value.toLowerCase() },
+                ...(price) && { price },
+                ...(colorsQuery) && { color: colorsQuery }
+            }
+        })
     }
     const handlePrice = (e) => {
+        setSort(e)
         if (name) {
-            if (e !== 'None') {
-                router.push(`?category=${name}&price=${e.toLowerCase()}`)
-                dispath(getProducts({
-                    sort: e,
-                    category: idCategory[0].id,
-                    color: []
-                }))
-            } else {
-                router.push(`?category=${name}`)
-                dispath(getProducts({
-                    sort: e,
-                    category: idCategory[0].id,
-                    color: []
-                }))
-            }
+            dispath(getProducts({
+                sort: e,
+                category: idCategory[0].id,
+                color: []
+            }))
         } else {
-            e !== 'None' ? router.push(`?price=${e.toLowerCase()}`) : router.push(`/product`)
             dispath(getProducts({
                 sort: e,
                 category: 0,
                 color: []
             }))
         }
+        router.push({
+            query: {
+                ...(name) && { category: name },
+                sort: e.toLowerCase(),
+                ...(colorsQuery) && { color: colorsQuery }
+            }
+        })
+
     }
     const handleColors = (e) => {
-        // console.log(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
+        setColor(e)
         dispath(getProducts({
             sort: price,
-            category: idCategory.length>0 ? idCategory[0].id : 0,
-            color: e 
+            category: idCategory.length > 0 ? idCategory[0].id : 0,
+            color: e
         }))
-        // router.push(e.length>0 ? `${`${router.asPath}&color=${e.join('&color=')}`}` : router.asPath)
-        console.log(params)
+        console.log(color)
+
+
+        router.push({
+
+            query: {
+                ...(name) && { category: name },
+                ...(price) && { price: price },
+                color: colors.filter(element => e.includes(element.id)).map(item => item.name.toLowerCase())
+            }
+        })
     }
-
-
     return (
         <Row gutter={[16, 24]} >
             <Col span={4}>
@@ -143,7 +152,7 @@ const ProductCommonLayOut = ({ children }) => {
                     <h1>Price</h1>
                     <Divider className={css.divider} />
 
-                    <Select onChange={(e) => handlePrice(e)} defaultValue="None" style={{ width: 120 }} >
+                    <Select value={sort} onChange={(e) => handlePrice(e)} defaultValue="None" style={{ width: 120 }} >
                         {options.map(item => {
                             return <Option key={item} value={item}>{item}</Option>
 
@@ -154,7 +163,7 @@ const ProductCommonLayOut = ({ children }) => {
                 <div className={css.options_group}>
                     <h1>Color</h1>
                     <Divider className={css.divider} />
-                    <Checkbox.Group onChange={(e) => handleColors(e)} >
+                    <Checkbox.Group value={color} onChange={(e) => handleColors(e)} >
                         <ul>
                             {colors.map((item) => {
 
