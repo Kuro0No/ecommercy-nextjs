@@ -5,7 +5,6 @@ import { Card, Col, Row } from 'antd';
 import css from '../../styles/product.module.scss'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
 const { Meta } = Card;
 
 const Product = () => {

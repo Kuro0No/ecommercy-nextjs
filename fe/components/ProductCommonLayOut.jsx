@@ -46,45 +46,36 @@ const ProductCommonLayOut = ({ children }) => {
         // colorsQuery.length > 0 && setColor(colorsQuery) 
 
 
-    }, [Object.keys(router.query), ])
+    }, [Object.keys(router.query)])
 
     useEffect(() => {
-   
-            dispath(getProducts({
-                sort: price && price !== 'none' ? price[0].toUpperCase() + price.slice(1) : null,
-                category: idCategory.length > 0 ?  idCategory[0].id : 0,
-                color: colorsQuery.length > 0 ? colors.filter(element => colorsQuery.includes(element.name.toLowerCase())).map(item => item.id)  : []
-            }))
+
+        dispath(getProducts({
+            sort: price && price !== 'none' ? price[0].toUpperCase() + price.slice(1) : null,
+            category: idCategory.length > 0 ? idCategory[0].id : 0,
+            color: colorsQuery.length > 0 ? colors.filter(element => colorsQuery.includes(element.name.toLowerCase())).map(item => item.id) : []
+        }))
 
     }, [])
-   
+
 
     const categoryHandle = (e) => {
         const item = category.find(item => item.name === e.target.value)
 
+        dispath(getProducts({
+            sort: null,
+            category: e.target.value !== 'All' ? item.id : 0,
+            color: []
+        }))
+        setSort('None')
+        setColor([])
 
-        if (e.target.value !== 'All') {
-            dispath(getProducts({
-                sort: null,
-                category: item.id,
-                color: []
-            }))
-
-
-        } else {
-            dispath(getProducts({
-                sort: null,
-                category: 0,
-                color: []
-            }))
-
-        }
         router.push({
             pathname: '/product',
             query: {
                 ...(e.target.value !== 'All') && { category: e.target.value.toLowerCase() },
-                ...(price) && { price },
-                ...(colorsQuery) && { color: colorsQuery }
+                // ...(price) && { price },
+                // ...(colorsQuery) && { color: colorsQuery }
             }
         })
     }
@@ -106,7 +97,7 @@ const ProductCommonLayOut = ({ children }) => {
         router.push({
             query: {
                 ...(name) && { category: name },
-                sort: e.toLowerCase(),
+                ...(e !== "None") && { sort: e.toLowerCase() },
                 ...(colorsQuery) && { color: colorsQuery }
             }
         })

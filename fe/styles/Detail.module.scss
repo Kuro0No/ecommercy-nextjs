@@ -1,0 +1,21 @@
+.container {
+    .category {
+        color: #ffa39e;
+    }
+
+    h4 {
+        font-size: 30px;
+    }
+    .paragraph {
+        white-space: pre;
+            // -webkit-line-clamp: 6;
+            // -webkit-box-orient: vertical;
+            // display: -webkit-box;
+    }
+    .price{
+        display: flex;
+        h3{
+            padding: 0 5px;
+        }
+    }
+}

@@ -78,10 +78,10 @@ export const productCategorySlice = createSlice({
         },
         
     },
-    reducers: {
-        getProductFilter: (state, action) => {
-            state.push(action.payload)
-        },
+    // reducers: {
+    //     getProductFilter: (state, action) => {
+    //         state.push(action.payload)
+    //     },
 
-    }
+    // }
 })
