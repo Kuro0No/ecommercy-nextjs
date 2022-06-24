@@ -40,13 +40,16 @@ const ProductCommonLayOut = ({ children }) => {
 
     useEffect(() => {
         // chuaw load data thi query = {}
-        console.log(colors.filter(item => colors.includes(item.id)))
+        const checkColor = colors.filter(item => colorsQuery.includes(item.name.toLowerCase())).map(item => item.id)
+
         router.query.category ? setChecked(router.query.category[0].toUpperCase() + router.query.category.slice(1)) : setChecked('All')
         router.query.sort ? setSort(router.query.sort[0].toUpperCase() + router.query.sort.slice(1)) : setSort('None')
-        // colorsQuery.length > 0 && setColor(colorsQuery) 
+        colorsQuery.length == 0 ? setColor([]) : setColor(checkColor) //setColor([]) : setColor(colorsQuery)
 
 
-    }, [Object.keys(router.query)])
+
+    }, []) //Object.keys(router.query)
+    console.log(color)
 
     useEffect(() => {
 
@@ -74,8 +77,7 @@ const ProductCommonLayOut = ({ children }) => {
             pathname: '/product',
             query: {
                 ...(e.target.value !== 'All') && { category: e.target.value.toLowerCase() },
-                // ...(price) && { price },
-                // ...(colorsQuery) && { color: colorsQuery }
+
             }
         })
     }
@@ -110,14 +112,13 @@ const ProductCommonLayOut = ({ children }) => {
             category: idCategory.length > 0 ? idCategory[0].id : 0,
             color: e
         }))
-        console.log(color)
 
 
         router.push({
 
             query: {
                 ...(name) && { category: name },
-                ...(price) && { price: price },
+                ...(price) && { sort: price },
                 color: colors.filter(element => e.includes(element.id)).map(item => item.name.toLowerCase())
             }
         })
@@ -164,6 +165,9 @@ const ProductCommonLayOut = ({ children }) => {
                             })}
                         </ul>
                     </Checkbox.Group>
+
+
+                
                 </div>
             </Col>
             <Col span={20}>

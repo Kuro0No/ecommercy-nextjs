@@ -12,13 +12,13 @@ const ProducDetail = ({ product }) => {
   const [qtt, setQtt] = useState(1)
   const dispath = useDispatch()
   const { cart } = useSelector(state => state.cart)
+ 
 
 
   const handleQuantities = (e) => {
     setQtt(e)
   }
   const handleAddToCart = () => {
-
 
     dispath(CartSlice.actions.add({
       product,
@@ -76,7 +76,7 @@ export default ProducDetail
 export async function getServerSideProps(context) {
   const { query } = context
   const res = await axiosConfig.get(`/list-products/${query.productId}`)
-  console.log(res.data)
+ 
   return {
     props: {
       product: res.data
