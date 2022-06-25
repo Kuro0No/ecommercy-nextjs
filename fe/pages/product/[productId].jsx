@@ -24,7 +24,6 @@ const ProducDetail = ({ product }) => {
       product,
       quantities: qtt
     }))
-    console.log(cart)
   }
 
 

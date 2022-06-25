@@ -4,4 +4,34 @@
 .container {
     height: $hei-header;
     background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a {
+        color: black !important;
+
+        &:hover {
+            color: black !important;
+
+        }
+    }
+
+    .input {
+        width: 400px;
+        border-radius: 20px;
+        
+    }
+    .right{
+        display: flex;
+        
+        .icon{
+            margin: 0 30px;
+            cursor: pointer;
+            svg{
+                height: 100%;
+                width: 30px!important;
+            }
+        }
+    }
 }

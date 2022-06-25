@@ -48,8 +48,8 @@ const ProductCommonLayOut = ({ children }) => {
 
 
 
-    }, []) //Object.keys(router.query)
-    console.log(color)
+    }, [name]) //Object.keys(router.query)
+   
 
     useEffect(() => {
 
