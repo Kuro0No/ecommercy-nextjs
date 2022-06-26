@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from base.api.models import Comments
+from base.api.serializers import CommentsListSerializer
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from base.api.paginations import CustomPageSearchNumberPagination
@@ -83,3 +85,19 @@ def WeekyDealView(request):
             
 
         return Response(serrializer.data)
+
+class CommentsView(viewsets.ModelViewSet):
+    
+    
+    serializer_class = CommentsListSerializer
+    pagination_class = CustomPageSearchNumberPagination
+  
+  
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        data = Comments.objects.filter(product_id=pk)
+        # serializer = CommentsListSerializer(data)
+  
+        
+        return data

@@ -4,6 +4,7 @@ import { Row, Col, Image, Typography, Button, Space, InputNumber } from 'antd'
 import css from '../../styles/Detail.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartSlice } from '../../redux/cartReducer'
+import Comments from '../../components/Comments'
 
 const { Paragraph, Title } = Typography;
 
@@ -11,7 +12,6 @@ const { Paragraph, Title } = Typography;
 const ProducDetail = ({ product }) => {
   const [qtt, setQtt] = useState(1)
   const dispath = useDispatch()
-  const { cart } = useSelector(state => state.cart)
  
 
 
@@ -66,6 +66,8 @@ const ProducDetail = ({ product }) => {
 
         </Col>
       </Row>
+      <Comments product_id={product.uuid}/>
+      
     </div>
   )
 }

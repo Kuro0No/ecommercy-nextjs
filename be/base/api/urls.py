@@ -9,6 +9,7 @@ router.register('list-products', views.TotalProductView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('weeky-deal/', views.WeekyDealView, name='weeky-deal')
+    path('weeky-deal/', views.WeekyDealView, name='weeky-deal'),
+    path('comments-list/<str:pk>', views.CommentsView.as_view({'get': 'list'}), name='comments'),
     # path('as/', views.getRoutes)
 ]

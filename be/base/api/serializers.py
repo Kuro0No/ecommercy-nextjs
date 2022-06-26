@@ -41,6 +41,8 @@ class WeeklyDealSerializer(ModelSerializer):
 class CommentsListSerializer(ModelSerializer):
     # user = UserSerializer(read_only=False)
     count_rep_comments = SerializerMethodField()
+    user = UserSerializer(read_only=True)
+    
 
     class Meta:
         model= Comments

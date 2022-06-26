@@ -1,0 +1,23 @@
+.comments-container{
+    margin-top: 50px;
+    .time{
+        color: #000;
+    }
+    .ant-comment-content-author{
+        position: relative;
+    }
+    strong{
+        color: #000 !important;
+        cursor: pointer;
+        font-size: 14px;
+        margin: 0;
+    }
+    .actions-container {
+        span {
+            font-size: 12px;
+            padding-right: 10px;
+            color: #9e3b3b;
+            cursor: pointer;
+        }
+    }
+}
