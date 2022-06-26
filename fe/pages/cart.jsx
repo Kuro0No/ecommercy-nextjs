@@ -1,80 +1,78 @@
 import React from 'react'
-import { Space, Table, Tag } from 'antd';
+import { Space, Table, Tag ,Popconfirm} from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
+import { CartSlice } from '../redux/cartReducer';
 
 
 const Cart = () => {
+  const { cart } = useSelector(state => state.cart)
+  const dispath = useDispatch()
   const columns = [
     {
-      title: 'Name',
+      title: 'Product',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
+      render: (text) => {
+
+        return <a>{text}</a>
+      },
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      key: 'quantity',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-        
-            return (
-              <Tag key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+      render: (_, record) => {
+        return <Space size="large">
+          <a onClick={() => handleIncrease(record)}>+</a>
+          <a onClick={() => handleDecrease(record)}>-</a>
+          <a onClick={() => handleDelete(record)}>x</a>
         </Space>
-      ),
+      },
     },
   ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+  const handleIncrease = (item) => {
+    dispath(CartSlice.actions.increase({
+      product: item
+    }))
+  }
+  const handleDecrease = (item) => {
+    dispath(CartSlice.actions.decrease({
+      product: item
+    }))
+   
+  }
+  const handleDelete = (item) => {
+    dispath(CartSlice.actions.delete({
+      product: item
+    }))
+  }  
+  
+  const data = cart.map(item => {
+    
+    return {
+      key: item.product.uuid,
+      name: item.product.name,
+      price: item.product.price * item.quantities,
+      quantity: item.quantities,
+    }
+    
+  })
 
   return (
     <div>
-      <Table columns={columns} dataSource={data}/>
+      <Popconfirm placement="topLeft"  okText="Yes" cancelText="No" >ee</Popconfirm>
+
+      <Table columns={columns} dataSource={data} />
     </div>
   )
 }
