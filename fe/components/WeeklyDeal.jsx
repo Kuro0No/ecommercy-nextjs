@@ -54,10 +54,7 @@ const WeekyDeal = () => {
           <Col span={24} className={css.product_wrap}>
             <Link href='/product/?category=computer'>
               <a>
-
-
                 <div className={css.titleProduct}>
-
                   <Title >Computer</Title>
                   <Paragraph strong={true}>Gamming -25%</Paragraph>
                   <ArrowRightOutlined className={css.icon} />
@@ -77,10 +74,8 @@ const WeekyDeal = () => {
         <Col span={9} className={css.product_wrap}>
           <Link href='/product/?category=mobile'>
             <a>
-
-
-              <div>
-                <Title className={css.titleProduct}>Mobile</Title>
+              <div className={css.titleProduct2}>
+                <Title >Mobile</Title>
                 <Paragraph strong={true}>sale up 35%</Paragraph>
                 <ArrowRightOutlined className={css.icon} />
               </div>

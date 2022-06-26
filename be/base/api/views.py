@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from base.api.models import Comments
 from base.api.serializers import CommentsListSerializer
+from base.api.models import RepComments
+from base.api.serializers import RepCommentListSerializer
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from base.api.paginations import CustomPageSearchNumberPagination
@@ -100,4 +102,15 @@ class CommentsView(viewsets.ModelViewSet):
         # serializer = CommentsListSerializer(data)
   
         
+        return data
+
+class RepCommentsView(viewsets.ModelViewSet):
+    
+    serializer_class = RepCommentListSerializer
+    pagination_class = CustomPageSearchNumberPagination
+  
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        data = RepComments.objects.filter(comment_id=pk)
+        # serializer = CommentsListSerializer(data)
         return data

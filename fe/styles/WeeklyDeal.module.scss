@@ -25,7 +25,7 @@
 
             img {
                 transition: ease 0.5s;
-                transform: scale(1.2);
+                transform: scale(1.15);
             }
 
             .icon {
@@ -39,6 +39,12 @@
         position: absolute;
         z-index: 5;
         top: 10%;
+        left: 3%;
+    }
+    .titleProduct2 {
+        position: absolute;
+        z-index: 5;
+        top: 2%;
         left: 3%;
     }
 

@@ -55,7 +55,7 @@ class CommentsListSerializer(ModelSerializer):
             return total
         
 class RepCommentListSerializer(ModelSerializer):
-    # user = UserSerializer(read_only=False)
+    user = UserSerializer(read_only=False)
     class Meta:
         model= RepComments
         fields = '__all__'

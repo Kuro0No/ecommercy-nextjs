@@ -8,6 +8,14 @@ export const getComments = createAsyncThunk(
         return res.data.results
     }
 )
+export const getRepComments = createAsyncThunk(
+    'repComments/getRepComments',
+    async (arg) => {
+       
+        const res = await axiosConfig.get(`/get-rep-comments/${arg}`)
+        return res.data.results
+    }
+)
 
 
 
@@ -16,7 +24,9 @@ export const commentsSlice = createSlice({
     name: 'comments',
     initialState: {
         comments: [],
+        repComments: [],
         loading: false,
+        loading2: false,
         err: '',
     },
     extraReducers: {
@@ -33,7 +43,22 @@ export const commentsSlice = createSlice({
 
         },
         [getComments.rejected]: (state) => {
-            state.err = 'failed'
+            state.err = 'failed to get comments'
+        },
+        [getRepComments.pending]: (state) => {
+            state.loading2 = true
+            state.err = ''
+
+        },
+        [getRepComments.fulfilled]: (state, action) => {
+            state.repComments = action.payload
+       
+            state.loading2 = false
+            state.err = ''
+
+        },
+        [getRepComments.rejected]: (state) => {
+            state.err = 'failed to get rep comments'
         },
         
     },

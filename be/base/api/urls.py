@@ -11,5 +11,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('weeky-deal/', views.WeekyDealView, name='weeky-deal'),
     path('comments-list/<str:pk>', views.CommentsView.as_view({'get': 'list'}), name='comments'),
+    path('get-rep-comments/<int:pk>', views.RepCommentsView.as_view({'get': 'list'}), name='rep-comments'),
     # path('as/', views.getRoutes)
 ]
+ 
