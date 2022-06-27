@@ -5,6 +5,7 @@ import ProductCommonLayOut from '../components/ProductCommonLayOut';
 import { Provider } from 'react-redux'
 import store from '../redux/store'
 import NextNProgress from "nextjs-progressbar";
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 

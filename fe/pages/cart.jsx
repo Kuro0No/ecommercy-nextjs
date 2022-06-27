@@ -27,7 +27,7 @@ const Cart = () => {
   const dispath = useDispatch()
   const sharedOnCell = (_, index) => {
 
-    if(cart.length === index) {
+    if (cart.length === index) {
       return {
         colSpan: 0,
       };
@@ -40,10 +40,11 @@ const Cart = () => {
       dataIndex: 'name',
       key: 'name',
       image: 'image',
-      render: (_,record) => {
-        return <a>
+      render: (_, record) => {
+        return <a className={css.showproduct}>
           <img className={css.image}  src={record.image} alt="cart" />
           <p>{record.name}</p>
+         
         </a>
       },
       onCell: sharedOnCell,
@@ -135,7 +136,7 @@ const Cart = () => {
               <Table.Summary.Cell index={2}>
                 <Text type="danger">{cart.length}</Text>
               </Table.Summary.Cell>
-              <Table.Summary.Cell  index={3}>
+              <Table.Summary.Cell index={3}>
                 <Text>{totalPrice}</Text>
               </Table.Summary.Cell>
             </Table.Summary.Row>

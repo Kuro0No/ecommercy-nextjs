@@ -20,13 +20,13 @@ const Banner = ({ banner }) => {
     const tabDot = [0, 1, 2]
     useEffect(() => {
         const slider = setInterval(() => {
-            tabSlider === 2 ? setTabSlider(0) : setTabSlider(tabSlider++)
-        },2000)
+            tabSlider === 2 ? setTabSlider(0) : setTabSlider(tabSlider + 1)
+        },3000)
 
         return () => {
             clearInterval(slider)
         }
-    },[])
+    },[tabSlider])
     return (
         <div className={style.container}>
             <Row className={style.row}>

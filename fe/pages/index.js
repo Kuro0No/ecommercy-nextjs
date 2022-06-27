@@ -36,8 +36,6 @@ export async function getStaticProps(context) {
       banner: res.data
     },
     revalidate: 5
-
   }
-
 
 }

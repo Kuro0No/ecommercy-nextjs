@@ -48,9 +48,3 @@ const Header = () => {
 
 export default Header
 
-export function getServerSideProps(context) {
-
-  return {
-    props: {}
-  }
-}
