@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row, Image, Button, Carousel } from 'antd'
 import style from '../styles/Baner.module.scss'
 import { ArrowLeftOutlined, ArrowRightOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import {baseUrlImage } from '../variable.js'
+import { useRouter } from 'next/router'
+
 
 const Banner = ({ banner }) => {
 
-
+    const router = useRouter()
     const [tabSlider, setTabSlider] = useState(0)
     const changeSlideLeft = () => {
         tabSlider === 0 ? setTabSlider(2) : setTabSlider(tabSlider - 1)
@@ -16,8 +18,15 @@ const Banner = ({ banner }) => {
         tabSlider === 2 ? setTabSlider(0) : setTabSlider(tabSlider + 1)
     }
     const tabDot = [0, 1, 2]
+    useEffect(() => {
+        const slider = setInterval(() => {
+            tabSlider === 2 ? setTabSlider(0) : setTabSlider(tabSlider++)
+        },2000)
 
-
+        return () => {
+            clearInterval(slider)
+        }
+    },[])
     return (
         <div className={style.container}>
             <Row className={style.row}>
@@ -39,7 +48,7 @@ const Banner = ({ banner }) => {
                             <Col  className={style.left} span={10}>
                                 <h2>{item.product.name}</h2>
                                 <h1>Your choice <br /> My Money</h1>
-                                <Button type="primary" icon={<ShoppingCartOutlined />} size='large'  >
+                                <Button onClick={() => router.push(`/product/${item.product.uuid}`)} type="primary" icon={<ShoppingCartOutlined />} size='large'  >
                                     Buy now!
                                 </Button>
                             </Col>
