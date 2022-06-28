@@ -12,9 +12,12 @@ const Register = () => {
     
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        // axiosConfig.post(`user/register/`)
-        console.log(data)
+    const onSubmit = async (data) => {
+        const res = await axiosConfig.post(`user/register/`, {
+            email: data.email,
+            name: data.name,
+            password: data.password,
+        })
     }
 
     return (
@@ -25,8 +28,8 @@ const Register = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="registerForm " >
                     <div className="mb-3">
-                        <label htmlFor="displayname" className="form-label" >Display Name</label>
-                        <input {...register("displayname")} type="text" className="form-control" id="displayname" />
+                        <label htmlFor="name" className="form-label" >Display Name</label>
+                        <input {...register("name")} type="text" className="form-control" id="name" />
 
                     </div>
                     <div className="mb-3">
@@ -36,7 +39,8 @@ const Register = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phone" className="form-label" >Phone</label>
-                        <InputNumber ref={{...register("phone")}} name="phone" className={`mb-3 ${css.phone}`} controls={false} />
+                        {/* <InputNumber  ref={{...register("phone")}} name="phone" className={`mb-3 ${css.phone}`} controls={false} /> */}
+                        <input {...register("phone")}  type="phone" className="form-control" id="phone" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label" >Password</label>
