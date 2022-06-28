@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework.response import Response
 from rest_framework import viewsets,generics
 from django_filters.rest_framework import DjangoFilterBackend
@@ -7,12 +7,28 @@ from base.api.serializers import TotalProductsSerializers
 from base.api.models import TotalProducts
 from .paginations import CustomPageSearchNumberPagination,CustomPageNumberPagination
 from .models import Cart, User
-from .serializers import CartSerializer
+from .serializers import CartSerializer, RegisterUserSerializer
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
 
 # from rest_framework.views import APIView
 
 # Create your views here.
+
+
+class CustomUserCreate(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self,request, formast='json'):
+        serializer = RegisterUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CartView(generics.ListCreateAPIView, generics.DestroyAPIView,generics.UpdateAPIView):

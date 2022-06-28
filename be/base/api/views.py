@@ -12,7 +12,36 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from base.api.models import TotalProducts
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 # Create your views here.
+
+
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['name'] = user.name
+        token['avatar'] = f'{user.avatar}'
+        # token['subcriber'] = f'{user.subcriber}'
+
+        # ...
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
 
 
 @api_view(['GET'])
@@ -35,6 +64,10 @@ def getRoutes(request):
     ]
 
     return Response(routes)
+
+
+
+
 
 
 class TotalProductView(viewsets.ModelViewSet):

@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import css from '../styles/Register.module.scss'
 import { InputNumber } from 'antd';
 import { useForm } from "react-hook-form";
-
+import axiosConfig from '../axiosConfig'
 
 
 
@@ -13,6 +13,7 @@ const Register = () => {
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (data) => {
+        // axiosConfig.post(`user/register/`)
         console.log(data)
     }
 

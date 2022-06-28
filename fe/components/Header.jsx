@@ -1,15 +1,16 @@
 import React from 'react'
 import style from '../styles/Header.module.scss'
-import { Typography, Input, Badge } from 'antd';
 import Link from 'next/link';
-import { UserOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 const { Search } = Input;
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { forwardRef } from 'react';
+import { Typography, Input, Badge } from 'antd';
+import { UserOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 
 
 
-const Header = () => {
+const Header =  () => {
   const { cart } = useSelector(state => state.cart)
   const router = useRouter()
 
