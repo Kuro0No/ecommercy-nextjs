@@ -12,7 +12,18 @@ import { UserOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/i
 
 const Header = () => {
   const { cart } = useSelector(state => state.cart)
-
+  const router = useRouter()
+  const {query} = router
+  const onSearch = (e) => {
+    router.push({
+      query: {
+        ...(query.category) && {category: query.category },
+        ...(query.sort) && {sort: query.sort },
+        ...(query.color) && {color: query.color },
+        search: e
+      }
+    })
+  }
   return (
     <div className={style.container}>
 
@@ -27,9 +38,9 @@ const Header = () => {
           <a >Shop</a>
         </Link>
       </Typography.Title>
-     
 
-      <Search className={style.input} size='large' placeholder="input search text" />
+
+      <Search onSearch={(e) => onSearch(e)} className={style.input} size='large' placeholder="input search text" />
       <div className={style.right}>
         <Link href="/login">
           <UserOutlined className={style.icon} />
