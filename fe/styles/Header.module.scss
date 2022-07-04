@@ -20,21 +20,39 @@
     .input {
         width: 400px;
         border-radius: 20px;
-        
+
     }
-    .right{
+
+    .right {
         display: flex;
-        
-        .icon{
+
+        .icon {
             margin: 0 30px;
             cursor: pointer;
-            svg{
+
+            svg {
                 height: 100%;
-                width: 30px!important;
+                width: 30px !important;
             }
         }
     }
-    h2{
-        margin: 0!important;
+
+    h2 {
+        margin: 0 !important;
+    }
+
+    .search {
+        position: relative;
+    }
+
+    .showSearch {
+        position: absolute;
+        width: 100%;
+        z-index: 50;
+        background-color: #fff;
+        
+    }
+    .ant-list-item{
+        padding: 12px 5px!important;
     }
 }
