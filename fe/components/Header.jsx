@@ -10,24 +10,25 @@ import { UserOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/i
 
 
 
-const Header =  () => {
+const Header = () => {
   const { cart } = useSelector(state => state.cart)
-  const router = useRouter()
 
   return (
     <div className={style.container}>
-    
-  
+
+
       <Typography.Title level={2}>
         <Link href="/">
           <a >HomePage</a>
         </Link>
       </Typography.Title>
-      <Typography.Title onClick={() => router.back()} level={2}>
-
-        Back
-
+      <Typography.Title level={2}>
+        <Link href="/product">
+          <a >Shop</a>
+        </Link>
       </Typography.Title>
+     
+
       <Search className={style.input} size='large' placeholder="input search text" />
       <div className={style.right}>
         <Link href="/login">
