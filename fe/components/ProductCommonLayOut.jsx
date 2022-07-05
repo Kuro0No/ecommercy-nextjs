@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import css from '../styles/ProductCommonLayOut.module.scss'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux';
-import { categorySlice, getProducts } from '../redux/reducer'
+import { categorySlice, getProducts, getSearchProducts } from '../redux/reducer'
 
 
 const { Option } = Select;
@@ -14,6 +14,7 @@ const ProductCommonLayOut = ({ children }) => {
     const dispath = useDispatch()
     let params = new URLSearchParams(router.asPath.slice(9));
     let name = params.get('category')
+    let q = params.get('search')
     let price = params.get('sort')
     let colorsQuery = params.getAll('color')
 
@@ -49,15 +50,17 @@ const ProductCommonLayOut = ({ children }) => {
 
 
     }, [name]) //Object.keys(router.query)
-   
+
 
     useEffect(() => {
-
-        dispath(getProducts({
-            sort: price && price !== 'none' ? price[0].toUpperCase() + price.slice(1) : null,
-            category: idCategory.length > 0 ? idCategory[0].id : 0,
-            color: colorsQuery.length > 0 ? colors.filter(element => colorsQuery.includes(element.name.toLowerCase())).map(item => item.id) : []
-        }))
+        q ?
+            dispath(getSearchProducts(q))
+            :
+            dispath(getProducts({
+                sort: price && price !== 'none' ? price[0].toUpperCase() + price.slice(1) : null,
+                category: idCategory.length > 0 ? idCategory[0].id : 0,
+                color: colorsQuery.length > 0 ? colors.filter(element => colorsQuery.includes(element.name.toLowerCase())).map(item => item.id) : []
+            }))
 
     }, [])
 
@@ -167,7 +170,7 @@ const ProductCommonLayOut = ({ children }) => {
                     </Checkbox.Group>
 
 
-                
+
                 </div>
             </Col>
             <Col span={20}>
