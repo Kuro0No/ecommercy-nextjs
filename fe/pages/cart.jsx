@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Space, Table, Tag, Popconfirm, Typography } from 'antd';
+import { Space, Table, Tag, Popconfirm, Typography, Empty } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { CartSlice } from '../redux/cartReducer';
@@ -10,7 +10,13 @@ const { Text } = Typography
 
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    const a =  selectedRows.length > 0 && selectedRows.reduce((pre,curr) => {
+      console.log(selectedRows)
+      
+      // return pre + curr.product.price * curr.quantities
+    })
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    // console.log(a);
   },
   getCheckboxProps: (record) => ({
     disabled: record.name === 'Disabled User',
@@ -25,6 +31,23 @@ const rowSelection = {
 const Cart = () => {
   const { cart } = useSelector(state => state.cart)
   const dispath = useDispatch()
+
+  const data = cart.map(item => {
+
+    return {
+      key: item.product.uuid,
+      image: item.product.image,
+      name: item.product.name,
+      price: item.product.price * item.quantities,
+      quantity: item.quantities,
+    }
+
+  })
+  const totalPrice = cart.reduce((pre, current) => {
+
+    return pre + current.product.price * current.quantities
+  }, 0)
+
   const sharedOnCell = (_, index) => {
 
     if (cart.length === index) {
@@ -42,9 +65,9 @@ const Cart = () => {
       image: 'image',
       render: (_, record) => {
         return <a className={css.showproduct}>
-          <img className={css.image}  src={record.image} alt="cart" />
+          <img className={css.image} src={record.image} alt="cart" />
           <p>{record.name}</p>
-         
+
         </a>
       },
       onCell: sharedOnCell,
@@ -106,29 +129,19 @@ const Cart = () => {
     }))
   }
 
-  const data = cart.map(item => {
 
-    return {
-      key: item.product.uuid,
-      image: item.product.image,
-      name: item.product.name,
-      price: item.product.price * item.quantities,
-      quantity: item.quantities,
-    }
 
-  })
-  const totalPrice = cart.reduce((pre, current) => {
-
-    return pre + current.product.price * current.quantities
-  }, 0)
-
+  console.log(cart)
 
 
   return (
     <div>
 
       <Table pagination={false} columns={columns} dataSource={data}
+        locale={{ emptyText: <Empty description={<p>No Data. <Link href={'/product'}>Shop Now!</Link></p>} /> }}
         summary={() => {
+          if (cart.length === 0) return
+
           return (
             <Table.Summary.Row>
               <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
