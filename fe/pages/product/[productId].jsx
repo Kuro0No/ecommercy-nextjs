@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axiosConfig from '../../axiosConfig'
-import { Row, Col, Image, Typography, Button, Space, InputNumber } from 'antd'
+import { Row, Col, Image, Typography, Button, Space, InputNumber, Radio } from 'antd'
 import css from '../../styles/Detail.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { CartSlice } from '../../redux/cartReducer'
@@ -12,21 +12,27 @@ const { Paragraph, Title } = Typography;
 const ProducDetail = ({ product }) => {
   const [qtt, setQtt] = useState(1)
   const dispath = useDispatch()
- 
+  const [color, setColor] = useState()
+
 
 
   const handleQuantities = (e) => {
     setQtt(e)
   }
   const handleAddToCart = () => {
-
-    dispath(CartSlice.actions.add({
-      product,
-      quantities: qtt
-    }))
+    if (color) {
+      dispath(CartSlice.actions.add({
+        product,
+        quantities: qtt,
+        color
+      }))
+    } else {
+      alert('You dont choose the color')
+    }
   }
-
-
+  const handleColor = e => {
+    setColor(e.target.value)
+  }
   return (
     <div className={css.container}>
       <Row gutter={[16, 24]}>
@@ -45,12 +51,14 @@ const ProducDetail = ({ product }) => {
           <div>
             <Title level={5}>Colors</Title >
             <Space size={[8, 16]}>
-              {product.color.map(item => {
+              <Radio.Group  buttonStyle="solid" onChange={(e) => handleColor(e)}>
+                {product.color.map(item => {
 
-                return <Button key={item.id}>
-                  {item.name}
-                </Button>
-              })}
+                  return <Radio.Button  value={item} key={item.id}>
+                    {item.name}
+                  </Radio.Button>
+                })}
+              </Radio.Group>
             </Space>
 
           </div>
@@ -66,8 +74,8 @@ const ProducDetail = ({ product }) => {
 
         </Col>
       </Row>
-      <Comments product_id={product.uuid}/>
-      
+      <Comments product_id={product.uuid} />
+
     </div>
   )
 }
@@ -77,7 +85,7 @@ export default ProducDetail
 export async function getServerSideProps(context) {
   const { query } = context
   const res = await axiosConfig.get(`/list-products/${query.productId}`)
- 
+
   return {
     props: {
       product: res.data

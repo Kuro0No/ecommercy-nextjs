@@ -29,7 +29,6 @@ const Cart = () => {
         price
       })
       return price
-      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
 
     },
     getCheckboxProps: (record) => ({
@@ -46,14 +45,16 @@ const Cart = () => {
   const dispath = useDispatch()
 
 
-  const data = cart.map(item => {
+  const data = cart.map((item, index) => {
 
     return {
-      key: item.product.uuid,
+      uuid: item.product.uuid,
+      key: index,
       image: item.product.image,
       name: item.product.name,
       price: item.product.price * item.quantities,
       quantity: item.quantities,
+      color: item.color.name,
     }
 
   })
@@ -61,6 +62,7 @@ const Cart = () => {
 
     return pre + current.product.price * current.quantities
   }, 0)
+
 
   const sharedOnCell = (_, index) => {
 
@@ -78,13 +80,22 @@ const Cart = () => {
       key: 'name',
       image: 'image',
       render: (_, record) => {
-        return <a className={css.showproduct}>
-          <img className={css.image} src={record.image} alt="cart" />
-          <p>{record.name}</p>
+        return <Link href={`/product/${record.uuid}`}>
+          <a className={css.showproduct}>
+            <img className={css.image} src={record.image} alt="cart" />
+            <p>{record.name}</p>
 
-        </a>
+          </a>
+        </Link>
       },
       onCell: sharedOnCell,
+    },
+    {
+      title: 'Color',
+      dataIndex: 'color',
+      key: 'color',
+      onCell: sharedOnCell,
+
     },
     {
       title: 'Quantity',
@@ -100,6 +111,7 @@ const Cart = () => {
       onCell: sharedOnCell,
 
     },
+
     {
       title: 'Action',
       key: 'action',
@@ -109,14 +121,14 @@ const Cart = () => {
 
         return <Space size="large">
 
-          <a style={{fontSize:20}} onClick={() => handleIncrease(record)}>+</a>
+          <a style={{ fontSize: 20 }} onClick={() => handleIncrease(record)}>+</a>
           {record.quantity > 1 && <a onClick={() => handleDecrease(record)}>-</a>}
           {record.quantity == 1 &&
             <Popconfirm title='Do you want to delete this product?' onConfirm={() => handleDelete(record)} placement="topLeft" okText="Yes" cancelText="No" >
-              <a style={{fontSize:20}}>-</a>
+              <a style={{ fontSize: 20 }}>-</a>
             </Popconfirm>}
           <Popconfirm title='Do you want to delete this product?' onConfirm={() => handleDelete(record)} placement="topLeft" okText="Yes" cancelText="No" >
-            <a style={{fontSize:20}}>x</a>
+            <a style={{ fontSize: 20 }}>x</a>
           </Popconfirm>
 
         </Space>
@@ -145,7 +157,6 @@ const Cart = () => {
 
 
 
-
   return (
     <div>
 
@@ -156,7 +167,7 @@ const Cart = () => {
 
           return (<>
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={2} index={0}>Choice Item</Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={3} index={0}>Choice Item</Table.Summary.Cell>
               {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
               <Table.Summary.Cell index={2}>
                 <Text type="danger">{itemSelect.length}</Text>
@@ -167,7 +178,7 @@ const Cart = () => {
             </Table.Summary.Row>
 
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={2} index={0}>Total</Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={3} index={0}>Total</Table.Summary.Cell>
               {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
               <Table.Summary.Cell index={2}>
                 <Text type="danger">{cart.length}</Text>
