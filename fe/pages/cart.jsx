@@ -8,29 +8,43 @@ import css from '../styles/cart.module.scss'
 const { Text } = Typography
 
 
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    const a =  selectedRows.length > 0 && selectedRows.reduce((pre,curr) => {
-      console.log(selectedRows)
-      
-      // return pre + curr.product.price * curr.quantities
-    })
-    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    // console.log(a);
-  },
-  getCheckboxProps: (record) => ({
-    disabled: record.name === 'Disabled User',
-    // Column configuration not to be checked
-    name: record.name,
-  }),
-};
-
 
 
 
 const Cart = () => {
+
+  const [itemSelect, setItemSelect] = useState({
+    length: 0,
+    price: 0
+  })
+
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      const price = selectedRows.reduce((pre, curr) => {
+        return pre + curr.price
+      }, 0)
+      setItemSelect({
+        length: selectedRows.length,
+        price
+      })
+      return price
+      // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      // Column configuration not to be checked
+      name: record.name,
+    }),
+
+  };
+
+
+
   const { cart } = useSelector(state => state.cart)
   const dispath = useDispatch()
+
 
   const data = cart.map(item => {
 
@@ -95,14 +109,14 @@ const Cart = () => {
 
         return <Space size="large">
 
-          <a onClick={() => handleIncrease(record)}>+</a>
+          <a style={{fontSize:20}} onClick={() => handleIncrease(record)}>+</a>
           {record.quantity > 1 && <a onClick={() => handleDecrease(record)}>-</a>}
           {record.quantity == 1 &&
             <Popconfirm title='Do you want to delete this product?' onConfirm={() => handleDelete(record)} placement="topLeft" okText="Yes" cancelText="No" >
-              <a>-</a>
+              <a style={{fontSize:20}}>-</a>
             </Popconfirm>}
           <Popconfirm title='Do you want to delete this product?' onConfirm={() => handleDelete(record)} placement="topLeft" okText="Yes" cancelText="No" >
-            <a>x</a>
+            <a style={{fontSize:20}}>x</a>
           </Popconfirm>
 
         </Space>
@@ -131,8 +145,6 @@ const Cart = () => {
 
 
 
-  console.log(cart)
-
 
   return (
     <div>
@@ -142,10 +154,21 @@ const Cart = () => {
         summary={() => {
           if (cart.length === 0) return
 
-          return (
+          return (<>
             <Table.Summary.Row>
-              <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-              <Table.Summary.Cell index={1}></Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={2} index={0}>Choice Item</Table.Summary.Cell>
+              {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
+              <Table.Summary.Cell index={2}>
+                <Text type="danger">{itemSelect.length}</Text>
+              </Table.Summary.Cell>
+              <Table.Summary.Cell index={3}>
+                <Text>{itemSelect.price}</Text>
+              </Table.Summary.Cell>
+            </Table.Summary.Row>
+
+            <Table.Summary.Row>
+              <Table.Summary.Cell colSpan={2} index={0}>Total</Table.Summary.Cell>
+              {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
               <Table.Summary.Cell index={2}>
                 <Text type="danger">{cart.length}</Text>
               </Table.Summary.Cell>
@@ -153,11 +176,13 @@ const Cart = () => {
                 <Text>{totalPrice}</Text>
               </Table.Summary.Cell>
             </Table.Summary.Row>
+          </>
           )
         }}
         rowSelection={{
           type: 'checkbox',
           ...rowSelection,
+
         }}
       />
     </div>

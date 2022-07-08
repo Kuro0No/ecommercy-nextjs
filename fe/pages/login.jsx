@@ -2,34 +2,58 @@ import css from '../styles/LoginForm.module.scss'
 import { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import Link from 'next/link';
-
+import axiosConfig from '../axiosConfig'
+import { useRouter } from 'next/router'
 
 
 const Login = () => {
 
     const [loading, setLoading] = useState(false)
-    const [emailValue, setEmailValue] = useState('')
-    const [passwordValue, setPasswordValue] = useState('')
+    const router = useRouter()
+    const [form, setForm] = useState({
+        email: '',
+        password: ''
+    })
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        try{
+            const res = await axiosConfig.post(`/token/`, {
+                email: form.email,
+                password: form.password
+            })
+            localStorage.setItem('user', res.data.access)
+            console.log(res)
+            router.push('/product')
+        } catch(er) {
+            alert(er)
+        }
+        setLoading(false)
 
+    }
     return (
         <>
 
             <div className={css.loginDiv} >
-                <form className={css.loginForm} >
+                <form onSubmit={(e)=> onSubmit(e)} className={css.loginForm} >
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label" >Email</label>
-                        <input type="email" className="form-control" value={emailValue} onChange={(e) => setEmailValue(e.target.value)} id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <input type="email" className="form-control" value={form.email} onChange={(e) => setForm({
+                            ...form, email: e.target.value
+                        })} id="exampleInputEmail1" aria-describedby="emailHelp" />
 
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label" >Password</label>
-                        <input type="password" className="form-control" value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} id="exampleInputPassword1" />
+                        <input type="password" className="form-control" value={form.password} onChange={(e) => setForm({
+                            ...form, password: e.target.value
+                        })} id="exampleInputPassword1" />
                     </div>
                     <div className="mb-3 form-check">
                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                         <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                     </div>
-                    <Button type="primary" htmlType='submit' disabled={loading} loading={loading} shape="round" >
+                    <Button loading={loading} type="primary" htmlType='submit' shape="round" >
                         Login
                     </Button>
                 </form>

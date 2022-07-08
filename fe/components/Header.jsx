@@ -20,7 +20,7 @@ const Header = () => {
   let params = new URLSearchParams(router.asPath.slice(9));
   const q = params.get('search')
   const [dataMenu, setDataMenu] = useState([])
-  const [MenuHiden,setMenuHiden] = useState()
+  const [MenuHiden, setMenuHiden] = useState()
   const debounceSearchTerm = useDebounce(search, 500)
 
 
@@ -30,13 +30,13 @@ const Header = () => {
 
   }, [])
   useEffect(() => {
-     const a =debounceSearchTerm && document.querySelector(`.${style.showSearch}`)
+    const a = debounceSearchTerm && document.querySelector(`.${style.showSearch}`)
     setMenuHiden(a)
-  },[debounceSearchTerm])
+  }, [debounceSearchTerm])
 
   const onSearch = (e) => {
     try {
-      if(MenuHiden) MenuHiden.style.display = 'none'
+      if (MenuHiden) MenuHiden.style.display = 'none'
       setSearch(e)
       dispath(getSearchProducts(e))
       router.push({
@@ -48,11 +48,11 @@ const Header = () => {
           search: e
         }
       })
-      
+
     } catch (eror) {
       alert(eror)
     }
-    
+
   }
 
 
@@ -67,7 +67,7 @@ const Header = () => {
     }
   }, [debounceSearchTerm])
   const onChange = (e) => {
-    if(MenuHiden) MenuHiden.style.display = 'block'
+    if (MenuHiden) MenuHiden.style.display = 'block'
     setSearch(e)
 
   }
@@ -90,7 +90,7 @@ const Header = () => {
         </Link>
       </Typography.Title>
       <div className={style.search}>
-        <Search onBlur={() => {if(MenuHiden) MenuHiden.style.display = 'none'}} onFocus={() => {if(MenuHiden) MenuHiden.style.display = 'block'}} onChange={e => onChange(e.target.value)} onSearch={(e) => onSearch(e)} className={style.input} size='large' placeholder="input search text" />
+        <Search onBlur={() => { if (MenuHiden) MenuHiden.style.display = 'none' }} onFocus={() => { if (MenuHiden) MenuHiden.style.display = 'block' }} onChange={e => onChange(e.target.value)} onSearch={(e) => onSearch(e)} className={style.input} size='large' placeholder="input search text" />
         {debounceSearchTerm && <List
           className={style.showSearch}
           itemLayout="horizontal"
@@ -112,9 +112,8 @@ const Header = () => {
 
         </Link>
 
-        <Link href="/cart">
+        <Link  href="/cart">
           <Badge count={cart.length} className={style.icon}>
-
             <ShoppingCartOutlined />
           </Badge>
         </Link>
