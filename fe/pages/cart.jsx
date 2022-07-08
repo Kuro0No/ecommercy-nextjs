@@ -167,7 +167,7 @@ const Cart = () => {
 
           return (<>
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={3} index={0}>Choice Item</Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={3} index={0}>Selected Item</Table.Summary.Cell>
               {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
               <Table.Summary.Cell index={2}>
                 <Text type="danger">{itemSelect.length}</Text>

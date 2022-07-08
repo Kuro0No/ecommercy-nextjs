@@ -45,7 +45,7 @@ const ProducDetail = ({ product }) => {
           <div className={css.price}>
             <Title level={5}>Price:</Title >
 
-            <h3 color='black'>{product.price}</h3>
+            <h5 color='black'>{product.price}</h5>
           </div>
           <Paragraph className={css.paragraph}>{product.description}</Paragraph>
           <div>
@@ -68,10 +68,7 @@ const ProducDetail = ({ product }) => {
               <InputNumber min={1} max={10} value={qtt} onChange={(e) => handleQuantities(e)} />
               <Button onClick={handleAddToCart} danger type="primary" shape='round' size='large'> ADD TO CART</Button>
             </Space>
-
           </div>
-
-
         </Col>
       </Row>
       <Comments product_id={product.uuid} />

@@ -1,7 +1,9 @@
 .container {
     padding-top: 30px;
     height: 700px;
-
+    h1{
+        padding: 20px 0;
+    }
     .title {
         text-align: center;
     }
@@ -25,7 +27,7 @@
 
             img {
                 transition: ease 0.5s;
-                transform: scale(1.15);
+                transform: scale(1.05);
             }
 
             .icon {
