@@ -1,38 +1,45 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosConfig from '../axiosConfig'
+import jwt_decode from "jwt-decode";
 
 
-export const getUser = createAsyncThunk(
-    'user/getUser',
+export const userLogin = createAsyncThunk(
+    'user/userLogin',
     async (arg) => {
-       
-        const res = await axiosConfig.get(`/get-rep-comments/${arg}`)
-        return res.data.results
+        const res = await axiosConfig.post(`/token/`, arg)
+        return res.data
     }
 )
 
 
 export const userSlice = createSlice({
-    name: 'comments',
+    name: 'user',
     initialState: {
-       user: {}
+        currentUser: null,
+        loading: false,
+        err: '' 
     },
     extraReducers:{
-        [getComments.pending]: (state) => {
+        [userLogin.pending]: (state) => {
             state.loading = true
-            state.err = ''
-
+            state.err = ''      
         },
-        [getComments.fulfilled]: (state, action) => {
-            state.user = action.payload
-       
+        [userLogin.fulfilled]: (state, action) => {
+            state.currentUser =jwt_decode(action.payload.access)
+            localStorage.setItem('authToken', action.payload.access)
             state.loading = false
             state.err = ''
 
         },
-        [getComments.rejected]: (state) => {
-            state.err = 'failed to get comments'
+        [userLogin.rejected]: (state) => {
+            state.err = 'failed to login'
         },
-    }
+    },
+    reducers: {
+        login: (state,action) => {
+            state.currentUser = action.payload
+            console.log(action.payload)
+        }}
+    
     
 })

@@ -4,11 +4,14 @@ import { Button } from 'antd';
 import Link from 'next/link';
 import axiosConfig from '../axiosConfig'
 import { useRouter } from 'next/router'
+import { userLogin } from '../redux/userReducer';
+import { useDispatch } from 'react-redux';
 
 
 const Login = () => {
 
     const [loading, setLoading] = useState(false)
+    const dispath = useDispatch()
     const router = useRouter()
     const [form, setForm] = useState({
         email: '',
@@ -18,13 +21,12 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         try{
-            const res = await axiosConfig.post(`/token/`, {
+            dispath(userLogin({
                 email: form.email,
                 password: form.password
-            })
-            localStorage.setItem('user', res.data.access)
-            console.log(res)
-            router.push('/product')
+            }))
+            
+            // router.push('/product')
         } catch(er) {
             alert(er)
         }

@@ -10,6 +10,10 @@ const { Search } = Input;
 import { getSearchProducts } from '../redux/reducer'
 import useDebounce from '../hooks/useDebounce'
 import axiosConfig from '../axiosConfig';
+import { userSlice } from '../redux/userReducer';
+import jwt_decode from "jwt-decode";
+
+
 
 const Header = () => {
   const { cart } = useSelector(state => state.cart)
@@ -22,7 +26,12 @@ const Header = () => {
   const [dataMenu, setDataMenu] = useState([])
   const [MenuHiden, setMenuHiden] = useState()
   const debounceSearchTerm = useDebounce(search, 500)
-
+  const {currentUser} = useSelector(state => state.user)
+  
+  useEffect(() => {
+    const user = localStorage.getItem('authToken')
+    dispath(userSlice.actions.login(jwt_decode(user)))
+  },[])
 
 
   useEffect(() => {
