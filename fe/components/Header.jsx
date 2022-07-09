@@ -12,7 +12,7 @@ import useDebounce from '../hooks/useDebounce'
 import axiosConfig from '../axiosConfig';
 import { userSlice } from '../redux/userReducer';
 import jwt_decode from "jwt-decode";
-
+import {baseUrl} from '../constant'
 
 
 const Header = () => {
@@ -26,12 +26,12 @@ const Header = () => {
   const [dataMenu, setDataMenu] = useState([])
   const [MenuHiden, setMenuHiden] = useState()
   const debounceSearchTerm = useDebounce(search, 500)
-  const {currentUser} = useSelector(state => state.user)
-  
+  const { currentUser } = useSelector(state => state.user)
+
   useEffect(() => {
-    const user = localStorage.getItem('authToken')
-    dispath(userSlice.actions.login(jwt_decode(user)))
-  },[])
+    const user =  localStorage.getItem('authToken') || null
+    user&& dispath(userSlice.actions.login(jwt_decode(user)))
+  }, [])
 
 
   useEffect(() => {
@@ -81,9 +81,6 @@ const Header = () => {
 
   }
 
-
-
-
   return (
     <div className={style.container}>
 
@@ -116,12 +113,16 @@ const Header = () => {
         />}
       </div>
       <div className={style.right}>
-        <Link href="/login">
+
+        {!currentUser ? <Link href="/login">
           <UserOutlined className={style.icon} />
 
         </Link>
+          :
+          <Avatar src={`${baseUrl}/base/media/${currentUser.avatar}`}/>}
 
-        <Link  href="/cart">
+
+        <Link href="/cart">
           <Badge count={cart.length} className={style.icon}>
             <ShoppingCartOutlined />
           </Badge>
