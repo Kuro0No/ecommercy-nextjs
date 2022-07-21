@@ -17,7 +17,7 @@ const Content = ({ children, extra }) => (
 const CheckOutInCart = ({ itemSelected }) => {
     const priceSeleted = itemSelected.reduce((pre, curr) => {
 
-        return pre.price + curr.price
+        return pre.price || pre + curr?.price
     }, 0)
 
 

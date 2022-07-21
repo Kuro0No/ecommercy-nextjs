@@ -6,6 +6,7 @@ export const CartSlice = createSlice({
     initialState: {
         cart: [],
         quantites: 0,
+        itemSelected: []
     },
 
     reducers: {
@@ -26,22 +27,28 @@ export const CartSlice = createSlice({
 
         },
         increase: (state, action) => {
-            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.uuid)
+            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.uuid && item.color.name === action.payload.product.color)
            
             state.cart[index].quantities = state.cart[index].quantities + 1  
 
         },
         decrease: (state, action) => {
-            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.key)
+            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.uuid && item.color.name === action.payload.product.color)
             state.cart[index].quantities = state.cart[index].quantities - 1
 
         },
         delete: (state, action) => {
-            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.key)
+            const checkSeleted = state.itemSelected.includes(action.payload.product.key)
+            if(checkSeleted) {
+                state.itemSelected.filter(item => item !== action.payload.product.key)
+            }
+            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.uuid && item.color.name === action.payload.product.color)
             state.cart.splice(index, 1)
 
 
         },
-
+        select: (state,action) => {
+            state.itemSelected= action.payload
+        }
     }
 })

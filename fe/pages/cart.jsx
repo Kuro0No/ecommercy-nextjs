@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useId, useState } from 'react'
 import { Space, Table, Tag, Popconfirm, Typography, Empty, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { CartSlice } from '../redux/cartReducer';
 import css from '../styles/cart.module.scss'
 import CheckOutInCart from '../components/CheckOutInCart';
-import { checkoutSlice } from '../redux/checkoutReducer';
 
 const { Text } = Typography
 
@@ -19,36 +18,23 @@ const Cart = () => {
     length: 0,
     price: 0
   })
-
   const dispath = useDispatch()
-  const { itemSelected } = useSelector(state => state.itemSelected)
+  const { cart,itemSelected } = useSelector(state => state.cart)
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      const price = selectedRows.reduce((pre, curr) => {
-        return pre + curr.price
-      }, 0)
-      // setItemSelect({
-      //   length: selectedRows.length,
-      //   price
-      // })
-      dispath(checkoutSlice.actions.add(selectedRows))
-      return price
+      dispath(CartSlice.actions.select(selectedRows))
 
     },
     selectedRowKeys : itemSelected.map(item => item.key)
   };
 
 
-
-  const { cart } = useSelector(state => state.cart)
-
-
   const data = cart.map((item, index) => {
 
     return {
       uuid: item.product.uuid,
-      key: index,
+      key: item.id,
       image: item.product.image,
       name: item.product.name,
       price: item.product.price * item.quantities,
@@ -57,6 +43,8 @@ const Cart = () => {
     }
 
   })
+
+
   const totalPrice = cart.reduce((pre, current) => {
 
     return pre + current.product.price * current.quantities

@@ -15,7 +15,6 @@ const Product = () => {
 
 
 
-
   // useEffect(() => {
   //   dispath(getProducts(router.query.category))
 

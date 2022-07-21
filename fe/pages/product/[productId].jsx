@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useId, useState } from 'react'
 import axiosConfig from '../../axiosConfig'
 import { Row, Col, Image, Typography, Button, Space, InputNumber, Radio } from 'antd'
 import css from '../../styles/Detail.module.scss'
@@ -15,7 +15,6 @@ const ProducDetail = ({ product }) => {
   const [color, setColor] = useState()
 
 
-
   const handleQuantities = (e) => {
     setQtt(e)
   }
@@ -24,7 +23,9 @@ const ProducDetail = ({ product }) => {
       dispath(CartSlice.actions.add({
         product,
         quantities: qtt,
-        color
+        color,
+        id: Math.floor(Math.random() * 1000)
+        
       }))
     } else {
       alert('You dont choose the color')
