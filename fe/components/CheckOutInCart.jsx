@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Button, Typography, PageHeader, Statistic, Descriptions } from 'antd';
 import css from '../styles/CheckOutInCart.module.scss'
 
@@ -14,11 +14,16 @@ const Content = ({ children, extra }) => (
 );
 
 
-const CheckOutInCart = ({ itemSelected }) => {
-    const priceSeleted = itemSelected.reduce((pre, curr) => {
+const CheckOutInCart = ({ itemSelected, cart }) => {
+    // const priceSeleted = useMemo(() => itemSelected.reduce((pre, curr) => {
 
-        return pre.price || pre + curr?.price
-    }, 0)
+    //     return pre.price || pre + curr?.price
+    // }, 0), [])
+    const priceSeleted = useMemo(() => (
+        itemSelected.reduce((pre, curr) => {
+            return pre.price || pre + curr?.price
+        }, 0
+        )), [itemSelected.length,cart.filter(item => item.quantities)])
 
 
     const renderContent = (column = 2) => (
@@ -33,7 +38,7 @@ const CheckOutInCart = ({ itemSelected }) => {
         </Descriptions>
     );
 
-    
+
 
 
     return (

@@ -188,7 +188,7 @@ const Cart = () => {
 
         }}
       />
-      <CheckOutInCart itemSelected={itemSelected}/>
+      <CheckOutInCart cart={cart} itemSelected={itemSelected}/>
     </div>
   )
 }
