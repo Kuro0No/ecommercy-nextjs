@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Space, Table, Tag, Popconfirm, Typography, Empty } from 'antd';
+import { Space, Table, Tag, Popconfirm, Typography, Empty, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { CartSlice } from '../redux/cartReducer';
 import css from '../styles/cart.module.scss'
+import CheckOutInCart from '../components/CheckOutInCart';
+import { checkoutSlice } from '../redux/checkoutReducer';
 
 const { Text } = Typography
 
@@ -18,31 +20,28 @@ const Cart = () => {
     price: 0
   })
 
+  const dispath = useDispatch()
+  const { itemSelected } = useSelector(state => state.itemSelected)
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       const price = selectedRows.reduce((pre, curr) => {
         return pre + curr.price
       }, 0)
-      setItemSelect({
-        length: selectedRows.length,
-        price
-      })
+      // setItemSelect({
+      //   length: selectedRows.length,
+      //   price
+      // })
+      dispath(checkoutSlice.actions.add(selectedRows))
       return price
 
     },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      // Column configuration not to be checked
-      name: record.name,
-    }),
-
+    selectedRowKeys : itemSelected.map(item => item.key)
   };
 
 
 
   const { cart } = useSelector(state => state.cart)
-  const dispath = useDispatch()
 
 
   const data = cart.map((item, index) => {
@@ -158,7 +157,7 @@ const Cart = () => {
 
 
   return (
-    <div>
+    <div className={css.container}>
 
       <Table pagination={false} columns={columns} dataSource={data}
         locale={{ emptyText: <Empty description={<p>No Data. <Link href={'/product'}>Shop Now!</Link></p>} /> }}
@@ -166,16 +165,6 @@ const Cart = () => {
           if (cart.length === 0) return
 
           return (<>
-            <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={3} index={0}>Selected Item</Table.Summary.Cell>
-              {/* <Table.Summary.Cell index={1}></Table.Summary.Cell> */}
-              <Table.Summary.Cell index={2}>
-                <Text type="danger">{itemSelect.length}</Text>
-              </Table.Summary.Cell>
-              <Table.Summary.Cell index={3}>
-                <Text>{itemSelect.price}</Text>
-              </Table.Summary.Cell>
-            </Table.Summary.Row>
 
             <Table.Summary.Row>
               <Table.Summary.Cell colSpan={3} index={0}>Total</Table.Summary.Cell>
@@ -187,6 +176,21 @@ const Cart = () => {
                 <Text>{totalPrice}</Text>
               </Table.Summary.Cell>
             </Table.Summary.Row>
+
+            <Table.Summary.Row>
+              <Table.Summary.Cell colSpan={3} index={0}>Selected Item</Table.Summary.Cell>
+              <Table.Summary.Cell index={2}>
+                <Text type="danger">{itemSelect.length}</Text>
+              </Table.Summary.Cell>
+              <Table.Summary.Cell index={3}>
+                <Text>{itemSelect.price}</Text>
+              </Table.Summary.Cell>
+              <Table.Summary.Cell index={3}>
+                <Button>Purchase</Button>
+              </Table.Summary.Cell>
+            </Table.Summary.Row>
+
+
           </>
           )
         }}
@@ -196,6 +200,7 @@ const Cart = () => {
 
         }}
       />
+      <CheckOutInCart itemSelected={itemSelected}/>
     </div>
   )
 }

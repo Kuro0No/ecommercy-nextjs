@@ -26,8 +26,9 @@ export const CartSlice = createSlice({
 
         },
         increase: (state, action) => {
-            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.key)
-            state.cart[index].quantities = state.cart[index].quantities + 1
+            const index = state.cart.findIndex(item => item.product.uuid === action.payload.product.uuid)
+           
+            state.cart[index].quantities = state.cart[index].quantities + 1  
 
         },
         decrease: (state, action) => {
