@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react'
+import React, { useEffect, useId, useMemo, useState } from 'react'
 import { Space, Table, Tag, Popconfirm, Typography, Empty, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
@@ -19,14 +19,14 @@ const Cart = () => {
     price: 0
   })
   const dispath = useDispatch()
-  const { cart,itemSelected } = useSelector(state => state.cart)
+  const { cart, itemSelected } = useSelector(state => state.cart)
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       dispath(CartSlice.actions.select(selectedRows))
 
     },
-    selectedRowKeys : itemSelected.map(item => item.key)
+    selectedRowKeys: itemSelected.map(item => item.key)
   };
 
 
@@ -50,6 +50,18 @@ const Cart = () => {
     return pre + current.product.price * current.quantities
   }, 0)
 
+  const [priceSeleted, setpriceSeleted] = useState()
+
+  useEffect(() => {
+    setpriceSeleted(itemSelected.reduce((pre, curr) => {
+      return pre.price || pre + curr?.price
+    }, 0))
+    // itemSelected.reduce((pre, curr) => {
+    //   return pre.price || pre + curr?.price
+    // }, 0)
+  }, [JSON.stringify(totalPrice),itemSelected])
+
+  console.log(priceSeleted)
 
   const sharedOnCell = (_, index) => {
 
@@ -188,7 +200,7 @@ const Cart = () => {
 
         }}
       />
-      <CheckOutInCart cart={cart} itemSelected={itemSelected}/>
+      <CheckOutInCart priceSeleted={priceSeleted} cart={cart} itemSelected={itemSelected} />
     </div>
   )
 }

@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Typography, PageHeader, Statistic, Descriptions } from 'antd';
 import css from '../styles/CheckOutInCart.module.scss'
+import { CartSlice } from '../redux/cartReducer'
+import { useDispatch } from 'react-redux';
 
 
 const { Title } = Typography;
@@ -14,16 +16,10 @@ const Content = ({ children, extra }) => (
 );
 
 
-const CheckOutInCart = ({ itemSelected, cart }) => {
-    // const priceSeleted = useMemo(() => itemSelected.reduce((pre, curr) => {
+const CheckOutInCart = ({ itemSelected, cart,priceSeleted }) => {
+ 
 
-    //     return pre.price || pre + curr?.price
-    // }, 0), [])
-    const priceSeleted = useMemo(() => (
-        itemSelected.reduce((pre, curr) => {
-            return pre.price || pre + curr?.price
-        }, 0
-        )), [itemSelected.length,cart.filter(item => item.quantities)])
+    console.log(cart)
 
 
     const renderContent = (column = 2) => (
