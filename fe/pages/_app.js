@@ -17,12 +17,12 @@ function MyApp({ Component, pageProps }) {
     return Component.getLayOut(
       <Provider  store={store}>
         <NextNProgress options={{  speed: 5000 }} color='red' />
-        <Layout>
-          <ProductCommonLayOut>
+        {/* <Layout> */}
+          {/* <ProductCommonLayOut> */}
             <Component  {...pageProps} />
-          </ProductCommonLayOut>
+          {/* </ProductCommonLayOut> */}
 
-        </Layout>
+        {/* </Layout> */}
       </Provider>
 
     )

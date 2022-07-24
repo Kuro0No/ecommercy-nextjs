@@ -1,11 +1,17 @@
 import React, { useEffect, memo, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { Provider, useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../../redux/reducer'
 import { Card, Col, Row } from 'antd';
 import css from '../../styles/product.module.scss'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 const { Meta } = Card;
+import { Breadcrumb, Layout, Menu } from 'antd';
+import ProductCommonLayOut from '../../components/ProductCommonLayOut'
+import store from '../../redux/store';
+import Header from '../../components/Header';
+
+const { Content, Footer, Sider } = Layout;
 
 const Product = () => {
   const dispath = useDispatch()
@@ -45,7 +51,25 @@ export default Product
 
 
 Product.getLayOut = function PageLayOut(page) {
-  return <>
-    {page}
-  </>
+  return <Provider store={store}>
+
+    <Layout style={{background: '#fff'}}>
+      <Header />
+      <Layout >
+
+        <Sider  theme='light'>
+          <Menu>
+            <ProductCommonLayOut />
+          </Menu>
+        </Sider>
+        <Layout>
+          <Content>
+            {page}
+
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
+  </Provider >
+
 }

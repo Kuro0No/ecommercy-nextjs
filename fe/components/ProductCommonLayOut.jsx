@@ -128,11 +128,11 @@ const ProductCommonLayOut = ({ children }) => {
     }
     return (
         <Row gutter={[16, 24]} >
-            <Col span={4}>
+            <Col style={{padding: '0 20px'}}>
                 <div className={css.options_group}>
                     <h1>Category</h1>
                     <Divider className={css.divider} />
-                    <ul>
+                    <ul >
                         <Radio.Group onChange={(e) => categoryHandle(e)} value={checked ? checked : 'All'}>
                             {category.map((item, i) => {
 
@@ -173,9 +173,8 @@ const ProductCommonLayOut = ({ children }) => {
 
                 </div>
             </Col>
-            <Col span={20}>
+            <Col>
                 {children}
-
             </Col>
         </Row >
     )

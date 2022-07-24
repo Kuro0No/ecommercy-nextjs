@@ -28,7 +28,7 @@ const Cart = () => {
     },
     selectedRowKeys: itemSelected.map(item => item.key)
   };
-
+  console.log(itemSelected)
 
   const data = cart.map((item, index) => {
 
@@ -61,7 +61,6 @@ const Cart = () => {
     // }, 0)
   }, [JSON.stringify(totalPrice),itemSelected])
 
-  console.log(priceSeleted)
 
   const sharedOnCell = (_, index) => {
 
