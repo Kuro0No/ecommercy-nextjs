@@ -17,6 +17,7 @@ class UserSerializer(ModelSerializer):
             "name",
             "avatar",
             'id',
+            'phone_number'
             # 'subcriber'
         ]
 

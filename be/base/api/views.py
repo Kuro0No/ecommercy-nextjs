@@ -28,7 +28,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['name'] = user.name
         token['avatar'] = f'{user.avatar}'
-        # token['subcriber'] = f'{user.subcriber}'
+        token['phone_number'] = f'{user.phone_number}'
 
         # ...
 

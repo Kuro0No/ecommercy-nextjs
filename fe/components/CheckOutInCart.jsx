@@ -26,7 +26,7 @@ const CheckOutInCart = ({ itemSelected, cart, priceSeleted }) => {
     const renderContent = (column = 2) => (<>
         <Descriptions size="small" column={column}>
             <Descriptions.Item label={<Title level={5}>Name</Title>}>
-                <Title level={5}>{currentUser?.name || 'Test'}</Title>
+                <Title level={5}>{currentUser?.name || 'None'}</Title>
             </Descriptions.Item>
 
             <Descriptions.Item label={<Title level={5}>Selected Item</Title>}>
@@ -42,7 +42,7 @@ const CheckOutInCart = ({ itemSelected, cart, priceSeleted }) => {
             </Descriptions.Item>
 
             <Descriptions.Item label={<Title level={5}>Phone Number</Title>}>
-                <Title level={5}>0123456789</Title>
+                <Title level={5}>{currentUser?.phone_number || 'None'}</Title>
             </Descriptions.Item>
 
         </Descriptions>
@@ -53,8 +53,8 @@ const CheckOutInCart = ({ itemSelected, cart, priceSeleted }) => {
 
 
 
-    return (<Collapse accordion>
-        <Panel   className={`${css.checkout}`} header={<Title level={5}>Checkout</Title>} key="1">
+    return (<Collapse  accordion>
+        <Panel className={`${css.checkout}`} header={<Title level={5}>Checkout</Title>} key="1">
             <PageHeader
                 className={`site-page-header-responsive `}
             >

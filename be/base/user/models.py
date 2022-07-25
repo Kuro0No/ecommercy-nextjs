@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models 
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 # from phonenumber_field.modelfields import PhoneNumberField
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator,RegexValidator
 
 
 # from base.models import ViSource
@@ -65,6 +65,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     created=models.DateTimeField(auto_now_add=True)
     avatar = models.ImageField(upload_to='avatar/' ,default='avatar/defaultAvatar.jpg', blank=True)
     # phone = PhoneNumberField(null=False, blank=False, unique=True)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True) # Validators should be a list
  
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)

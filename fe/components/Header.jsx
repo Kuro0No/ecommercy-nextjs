@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { forwardRef } from 'react';
-import { Typography, Input, Badge, List, Avatamr, Cascader, Avatar } from 'antd';
+import { Typography, Input, Badge, List, Avatamr, Cascader, Avatar, Menu, Dropdown, Space } from 'antd';
 import { UserOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 const { Search } = Input;
 import { getSearchProducts } from '../redux/reducer'
@@ -12,8 +12,47 @@ import useDebounce from '../hooks/useDebounce'
 import axiosConfig from '../axiosConfig';
 import { userSlice } from '../redux/userReducer';
 import jwt_decode from "jwt-decode";
-import {baseUrl} from '../constant'
+import { baseUrl } from '../constant'
 
+
+
+const menu = (
+  <Menu
+    items={[
+      {
+        key: '1',
+        label: (
+          <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+            1st menu item
+          </a>
+        ),
+      },
+      {
+        key: '2',
+        label: (
+          <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+            2nd menu item (disabled)
+          </a>
+        ),
+        disabled: true,
+      },
+      {
+        key: '3',
+        label: (
+          <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+            3rd menu item (disabled)
+          </a>
+        ),
+        disabled: true,
+      },
+      {
+        key: '4',
+        danger: true,
+        label: 'a danger item',
+      },
+    ]}
+  />
+);
 
 const Header = () => {
   const { cart } = useSelector(state => state.cart)
@@ -29,8 +68,8 @@ const Header = () => {
   const { currentUser } = useSelector(state => state.user)
 
   useEffect(() => {
-    const user =  localStorage.getItem('authToken') || null
-    user&& dispath(userSlice.actions.login(jwt_decode(user)))
+    const user = localStorage.getItem('authToken') || null
+    user && dispath(userSlice.actions.login(jwt_decode(user)))
   }, [])
 
 
@@ -119,8 +158,16 @@ const Header = () => {
 
         </Link>
           :
-          <Avatar src={`${baseUrl}/base/media/${currentUser.avatar}`}/>}
 
+          <Dropdown trigger={['click']} overlay={menu}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar src={`https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png `} />
+              </Space>
+            </a>
+          </Dropdown>
+
+        }
 
         <Link href="/cart">
           <Badge count={cart.length} className={style.icon}>
