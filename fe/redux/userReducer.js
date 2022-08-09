@@ -38,7 +38,11 @@ export const userSlice = createSlice({
     reducers: {
         login: (state,action) => {
             state.currentUser = action.payload
-        }}
+        }},
+        signOut: (state,action) => {
+            localStorage.clear()
+            state.currentUser = null
+        }
     
     
 })

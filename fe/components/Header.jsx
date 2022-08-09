@@ -16,45 +16,9 @@ import { baseUrl } from '../constant'
 
 
 
-const menu = (
-  <Menu
-    items={[
-      {
-        key: '1',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-            1st menu item
-          </a>
-        ),
-      },
-      {
-        key: '2',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-            2nd menu item (disabled)
-          </a>
-        ),
-        disabled: true,
-      },
-      {
-        key: '3',
-        label: (
-          <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-            3rd menu item (disabled)
-          </a>
-        ),
-        disabled: true,
-      },
-      {
-        key: '4',
-        danger: true,
-        label: 'a danger item',
-      },
-    ]}
-  />
-);
 
 const Header = () => {
+
   const { cart } = useSelector(state => state.cart)
   const router = useRouter()
   const { query } = router
@@ -71,6 +35,23 @@ const Header = () => {
     const user = localStorage.getItem('authToken') || null
     user && dispath(userSlice.actions.login(jwt_decode(user)))
   }, [])
+
+  const menu = (
+
+    <Menu
+      items={[
+        {
+          key: '1',
+          danger: true,
+          label: 'Sign out',
+          onClick: () => {
+            dispath(userSlice.actions.signOut())
+  
+          }
+        },
+      ]}
+    />
+  );
 
 
   useEffect(() => {

@@ -26,7 +26,7 @@ const Login = () => {
                 password: form.password
             }))
             
-            // router.push('/product')
+            router.push('/product')
         } catch(er) {
             alert(er)
         }
