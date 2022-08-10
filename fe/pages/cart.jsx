@@ -28,7 +28,6 @@ const Cart = () => {
     },
     selectedRowKeys: itemSelected.map(item => item.key)
   };
-  console.log(itemSelected)
 
   const data = cart.map((item, index) => {
 
@@ -176,18 +175,7 @@ const Cart = () => {
               </Table.Summary.Cell>
             </Table.Summary.Row>
 
-            <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={3} index={0}>Selected Item</Table.Summary.Cell>
-              <Table.Summary.Cell index={2}>
-                <Text type="danger">{itemSelect.length}</Text>
-              </Table.Summary.Cell>
-              <Table.Summary.Cell index={3}>
-                <Text>{itemSelect.price}</Text>
-              </Table.Summary.Cell>
-              <Table.Summary.Cell index={3}>
-                <Button>Purchase</Button>
-              </Table.Summary.Cell>
-            </Table.Summary.Row>
+           
 
 
           </>

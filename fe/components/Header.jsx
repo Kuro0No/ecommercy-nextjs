@@ -13,6 +13,7 @@ import axiosConfig from '../axiosConfig';
 import { userSlice } from '../redux/userReducer';
 import jwt_decode from "jwt-decode";
 import { baseUrl } from '../constant'
+import logo from '../media/img/logo.png'
 
 
 
@@ -46,7 +47,7 @@ const Header = () => {
           label: 'Sign out',
           onClick: () => {
             dispath(userSlice.actions.signOut())
-  
+
           }
         },
       ]}
@@ -55,7 +56,8 @@ const Header = () => {
 
 
   useEffect(() => {
-    dispath(getSearchProducts(q))
+   
+    q && dispath(getSearchProducts(q))
 
   }, [])
   useEffect(() => {
@@ -87,7 +89,7 @@ const Header = () => {
 
 
   useEffect(() => {
-    if (search) {
+    if (search ) {
       async function getData() {
         const res = await axiosConfig.get(`http://localhost:8000/api/list-products/?search=${search}`)
         setDataMenu(res.data.results)
@@ -104,17 +106,19 @@ const Header = () => {
   return (
     <div className={style.container}>
 
+      <div className={style.left}>
 
-      <Typography.Title level={2}>
-        <Link href="/">
-          <a >HomePage</a>
-        </Link>
-      </Typography.Title>
-      <Typography.Title level={2}>
-        <Link href="/product">
-          <a >Shop</a>
-        </Link>
-      </Typography.Title>
+        <Typography.Title className={style.logo} >
+          <Link href="/">
+            <a ><img src={logo.src} /></a>
+          </Link>
+        </Typography.Title>
+        <Typography.Title level={3}>
+          <Link href="/product">
+            <a >Shop</a>
+          </Link>
+        </Typography.Title>
+      </div>
       <div className={style.search}>
         <Search onBlur={() => { if (MenuHiden) MenuHiden.style.display = 'none' }} onFocus={() => { if (MenuHiden) MenuHiden.style.display = 'block' }} onChange={e => onChange(e.target.value)} onSearch={(e) => onSearch(e)} className={style.input} size='large' placeholder="input search text" />
         {debounceSearchTerm && <List

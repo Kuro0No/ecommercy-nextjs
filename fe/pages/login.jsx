@@ -51,10 +51,7 @@ const Login = () => {
                             ...form, password: e.target.value
                         })} id="exampleInputPassword1" />
                     </div>
-                    <div className="mb-3 form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                    </div>
+                    
                     <Button loading={loading} type="primary" htmlType='submit' shape="round" >
                         Login
                     </Button>

@@ -44,7 +44,7 @@ export const productCategorySlice = createSlice({
             state.products = action.payload
             state.loading = false
             state.err = ''
-
+        
         },
         [getProducts.rejected]: (state) => {
             state.err = 'failed'
@@ -58,7 +58,7 @@ export const productCategorySlice = createSlice({
             state.products = action.payload
             state.loading = false
             state.err = ''
-
+           
         },
         [getSearchProducts.rejected]: (state) => {
             state.err = 'failed'

@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
 
     return Component.getLayOut(
       <Provider  store={store}>
-        <NextNProgress options={{  speed: 5000 }} color='red' />
+        <NextNProgress options={{  speed: 300 }} color='red' />
         {/* <Layout> */}
           {/* <ProductCommonLayOut> */}
             <Component  {...pageProps} />
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   return <Provider store={store}>
-    <NextNProgress color='red' />
+    <NextNProgress options={{  speed: 300 }}  color='red' />
     <Layout>
       <Component {...pageProps} />
     </Layout>

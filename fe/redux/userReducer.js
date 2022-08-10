@@ -17,15 +17,15 @@ export const userSlice = createSlice({
     initialState: {
         currentUser: null,
         loading: false,
-        err: '' 
+        err: ''
     },
-    extraReducers:{
+    extraReducers: {
         [userLogin.pending]: (state) => {
             state.loading = true
-            state.err = ''      
+            state.err = ''
         },
         [userLogin.fulfilled]: (state, action) => {
-            state.currentUser =jwt_decode(action.payload.access)
+            state.currentUser = jwt_decode(action.payload.access)
             localStorage.setItem('authToken', action.payload.access)
             state.loading = false
             state.err = ''
@@ -36,13 +36,12 @@ export const userSlice = createSlice({
         },
     },
     reducers: {
-        login: (state,action) => {
+        login: (state, action) => {
             state.currentUser = action.payload
-        }},
-        signOut: (state,action) => {
+        },
+        signOut: (state, action) => {
             localStorage.clear()
             state.currentUser = null
-        }
-    
-    
+        }}
+
 })

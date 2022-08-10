@@ -8,6 +8,13 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    .left{
+        display: flex;
+        h3{
+            align-self: center;
+            margin: 0 20px!important;
+        }
+    }
 
     a {
         color: black !important;
@@ -17,7 +24,12 @@
 
         }
     }
-
+    .logo{
+        img{
+            width: 80px;
+           
+        }
+    }
     .input {
         width: 400px;
         border-radius: 20px;

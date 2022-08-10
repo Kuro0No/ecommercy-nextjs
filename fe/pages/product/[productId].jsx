@@ -37,10 +37,10 @@ const ProducDetail = ({ product }) => {
   return (
     <div className={css.container}>
       <Row gutter={[16, 24]}>
-        <Col xs={12}>
-          <Image width={'100%'} src={product.image} alt="" />
+        <Col xs={10}>
+          <Image height={700} width={'100%'} src={product.image} alt="" />
         </Col>
-        <Col xs={12}>
+        <Col xs={14}>
           <Title level={3} className={css.category}>{product.category.name}</Title>
           <h4  >{product.name}</h4 >
           <div className={css.price}>
