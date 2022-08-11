@@ -5,12 +5,23 @@ import css from '../styles/Register.module.scss'
 import { InputNumber } from 'antd';
 import { useForm } from "react-hook-form";
 import axiosConfig from '../axiosConfig'
+import { Select } from 'antd';
 
+const { Option } = Select;
 
 
 const Register = () => {
-    
+
     const [loading, setLoading] = useState(false)
+    const [address, setAddress] = useState({
+        city: [],
+        district: [],
+        ward: []
+    })
+    const [idAddress, setIdAddress] = useState({
+        idCity: '',
+        idDistrict: ''
+    })
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
         const res = await axiosConfig.post(`user/register/`, {
@@ -19,6 +30,21 @@ const Register = () => {
             password: data.password,
         })
     }
+    const handleAddress = async address => {
+        if (address === 'city') {
+            const res = await axiosConfig.get(`/address/cities`)
+            setAddress({ ...address, city: res.data })
+            
+
+        }
+    }
+    const handleIdAddress = async (e) => {
+        const res = await axiosConfig.get(`/address/city/${e}`)
+
+        setAddress({ ...address, district: res.data.districts })
+
+    }
+    console.log(address.district)
 
     return (
         <>
@@ -34,21 +60,59 @@ const Register = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label" >Email</label>
-                        <input {...register("email")} type="email" className="form-control"  id="email" />
+                        <input {...register("email")} type="email" className="form-control" id="email" />
 
                     </div>
                     <div className="mb-3">
                         <label htmlFor="phone" className="form-label" >Phone</label>
                         {/* <InputNumber  ref={{...register("phone")}} name="phone" className={`mb-3 ${css.phone}`} controls={false} /> */}
-                        <input {...register("phone")}  type="phone" className="form-control" id="phone" />
+                        <input {...register("phone")} type="phone" className="form-control" id="phone" />
                     </div>
+                    <div className="mb-3 d-flex">
+                        <div>
+                            <label className="me-2">City</label>
+                            <Select onChange={(e) => handleIdAddress(e)} onFocus={() => handleAddress('city')} defaultValue="Select city" style={{ width: 120 }} >
+                                {address.city.map(item => (
+                                    <>
+                                        <Option value={item.id}>{item.name}</Option>
+
+                                    </>
+                                ))}
+
+
+                            </Select>
+                        </div>
+                        <div>
+                            <label className="me-2">District</label>
+
+                            <Select onChange={() => handleIdAddress()} onClick={() => handleAddress('district')} defaultValue="Select district" style={{ width: 120 }} >
+                                {address.district?.map(item => (
+                                    <>
+                                        <Option value={item.id}>{item.name}</Option>
+                                    </>
+                                ))}
+
+                            </Select>
+                        </div>
+                        <div>
+                            <label className="me-2">Ward</label>
+                            <Select defaultValue="lucy" style={{ width: 120 }} >
+                                <Option value="jack">Jack</Option>
+                                <Option value="lucy">Lucy</Option>
+
+                            </Select>
+                        </div>
+                        {/* <label htmlFor="phone" className="form-label" >Phone</label> */}
+                        {/* <input {...register("phone")} type="phone" className="form-control" id="phone" /> */}
+                    </div>
+
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label" >Password</label>
-                        <input {...register("password")}  type="password" className="form-control" id="password" />
+                        <input {...register("password")} type="password" className="form-control" id="password" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                        <input type="password" className="form-control"  id="confirmPassword" />
+                        <input type="password" className="form-control" id="confirmPassword" />
                     </div>
 
 
