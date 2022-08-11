@@ -30,21 +30,22 @@ const Register = () => {
             password: data.password,
         })
     }
-    const handleAddress = async address => {
-        if (address === 'city') {
-            const res = await axiosConfig.get(`/address/cities`)
-            setAddress({ ...address, city: res.data })
-            
+    const handleAddressCity = async address => {
+
+        const res = await axiosConfig.get(`/address/cities`)
+        setAddress({ ...address, city: res.data })
+
+    }
+    const handleDistrictOrWard = async (arg) => {
+        if (arg.type === 'district') {
+            const res = await axiosConfig.get(`/address/city/${arg.id}`)
+            setAddress({ ...address, district: res.data.districts })
+
+        } else {
 
         }
-    }
-    const handleIdAddress = async (e) => {
-        const res = await axiosConfig.get(`/address/city/${e}`)
-
-        setAddress({ ...address, district: res.data.districts })
 
     }
-    console.log(address.district)
 
     return (
         <>
@@ -71,10 +72,10 @@ const Register = () => {
                     <div className="mb-3 d-flex">
                         <div>
                             <label className="me-2">City</label>
-                            <Select onChange={(e) => handleIdAddress(e)} onFocus={() => handleAddress('city')} defaultValue="Select city" style={{ width: 120 }} >
+                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'district', id })} onFocus={() => handleAddressCity()} defaultValue="Select city" style={{ width: 120 }} >
                                 {address.city.map(item => (
                                     <>
-                                        <Option value={item.id}>{item.name}</Option>
+                                        <Option key={item.id} value={item.id}>{item.name}</Option>
 
                                     </>
                                 ))}
@@ -85,10 +86,10 @@ const Register = () => {
                         <div>
                             <label className="me-2">District</label>
 
-                            <Select onChange={() => handleIdAddress()} onClick={() => handleAddress('district')} defaultValue="Select district" style={{ width: 120 }} >
+                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'ward', id })} defaultValue="Select district" style={{ width: 120 }} >
                                 {address.district?.map(item => (
                                     <>
-                                        <Option value={item.id}>{item.name}</Option>
+                                        <Option key={item.id} value={item.id}>{item.name}</Option>
                                     </>
                                 ))}
 
