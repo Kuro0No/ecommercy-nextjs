@@ -33,16 +33,17 @@ const Register = () => {
     const handleAddressCity = async address => {
 
         const res = await axiosConfig.get(`/address/cities`)
-        setAddress({ ...address, city: res.data })
+        setAddress({ ...address, city: res.data,district:[], ward:[] })
 
     }
     const handleDistrictOrWard = async (arg) => {
         if (arg.type === 'district') {
-            const res = await axiosConfig.get(`/address/city/${arg.id}`)
+            const res = await axiosConfig.get(`/address/city/${arg.city_id}`)
             setAddress({ ...address, district: res.data.districts })
 
         } else {
-
+            const res = await axiosConfig.get(`/address/district/${arg.district_id} `)
+            setAddress({ ...address, ward: res.data.wards })
         }
 
     }
@@ -72,7 +73,7 @@ const Register = () => {
                     <div className="mb-3 d-flex">
                         <div>
                             <label className="me-2">City</label>
-                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'district', id })} onFocus={() => handleAddressCity()} defaultValue="Select city" style={{ width: 120 }} >
+                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'district', city_id: id })} onFocus={() => handleAddressCity()} defaultValue="Select city" style={{ width: 120 }} >
                                 {address.city.map(item => (
                                     <>
                                         <Option key={item.id} value={item.id}>{item.name}</Option>
@@ -86,9 +87,10 @@ const Register = () => {
                         <div>
                             <label className="me-2">District</label>
 
-                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'ward', id })} defaultValue="Select district" style={{ width: 120 }} >
+                            <Select onSelect={(id) => handleDistrictOrWard({ type: 'ward', district_id: id })} defaultValue="Select district" style={{ width: 120 }} >
                                 {address.district?.map(item => (
                                     <>
+
                                         <Option key={item.id} value={item.id}>{item.name}</Option>
                                     </>
                                 ))}
@@ -98,8 +100,13 @@ const Register = () => {
                         <div>
                             <label className="me-2">Ward</label>
                             <Select defaultValue="lucy" style={{ width: 120 }} >
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
+                                {address.ward?.map(item => (
+                                    <>
+
+                                        <Option key={item.id} value={item.id}>{item.name}</Option>
+                                    </>
+                                ))}
+
 
                             </Select>
                         </div>
